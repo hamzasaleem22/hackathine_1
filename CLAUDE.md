@@ -196,12 +196,158 @@ If ALL true, suggest:
 
 Wait for consent; never auto-create ADRs. Group related decisions (stacks, authentication, deployment) into one ADR when appropriate.
 
+## Professional Planning Workflow (for content/implementation projects)
+
+When working on content creation or implementation projects with plans that include professional planning enhancements, follow these additional workflows:
+
+### 1. Pilot Phase Gate (CRITICAL for content projects)
+
+**Before proceeding beyond pilot module/phase, enforce gate criteria:**
+
+- Check if plan.md contains "Pilot Phase Strategy" section
+- If present, identify pilot success criteria (typically 4-6 mandatory checks)
+- **GATE RULE**: NO work on subsequent modules/phases until ALL pilot criteria met
+- Document pilot results in `specs/<feature>/lessons-learned.md`
+- Lock templates after pilot validation (no structural changes)
+
+**Example Gate Criteria** (from Physical AI Textbook project):
+1. Pilot module passes validation checklist on first attempt
+2. Content creation within time budget (±20%)
+3. All visual elements render correctly
+4. All citations accessible (100% open-access requirement)
+5. Build/deployment completes within performance targets
+6. End-to-end deployment successful
+
+**Pilot Failure Response**:
+- Follow plan.md "Pilot Failure Response Decision Tree"
+- Update templates/workflow before retrying pilot
+- Do NOT proceed to next phase until pilot passes
+
+### 2. Progress Tracking Requirements
+
+**Daily Updates** (if plan includes Progress Tracking Dashboard):
+- Update burndown metrics in plan.md or separate tracking file
+- Check red flag triggers (productivity, validation failures, time overruns)
+- Status indicators: 🟢 Green (on track) / 🟡 Yellow (10-20% behind) / 🔴 Red (>20% behind)
+
+**Weekly Reviews** (Sundays, 15 minutes):
+- Update `specs/<feature>/communication-log.md` weekly status section
+- Calculate velocity metrics (e.g., pages per hour, tasks per week)
+- Traffic light assessment: 🟢🟡🔴
+- Identify blockers requiring escalation
+
+**File Locations**:
+- `specs/<feature>/communication-log.md` — Weekly status tracking
+- `specs/<feature>/lessons-learned.md` — Post-module/milestone learnings
+- `specs/<feature>/plan.md` — Burndown metrics tables (update in-place)
+
+### 3. Rollback & Recovery Procedures
+
+**When to activate** (check plan.md "Rollback & Recovery Procedures" section):
+- Validation failure: Module/component fails quality checklist (typically >5 critical errors)
+- Infrastructure failure: Build/deployment pipeline breaks
+- Resource crisis: Critical dependency becomes unavailable (e.g., citations paywalled, tool deprecated)
+
+**Standard Response Flow**:
+1. **STOP** work on next module/phase immediately
+2. **Document** failure in `specs/<feature>/validation-failures/<identifier>.md`
+3. **Decide** within 30 minutes using plan.md decision matrix (fix / defer / replace)
+4. **Update** Resource Allocation Matrix and Execution Timeline
+5. **Resume** only after validation passes or recovery complete
+
+**Git Tag Strategy** (if specified in plan):
+- Create tags after each validated milestone: `git tag -a <milestone>-validated -m "..."`
+- Rollback procedure: `git checkout tags/<milestone>-validated -b recovery-branch`
+- Frequency: Minimum 1 tag per major milestone
+
+### 4. Change Control Process
+
+**Trigger**: Any modification to `spec.md` after implementation begins
+
+**Required Process** (if plan includes Change Control section):
+1. **Document**: Create `specs/<feature>/change-requests/CR-NNN-title.md`
+2. **Assess Impact** (30 minutes max):
+   - Estimated hours required
+   - Modules/components affected
+   - Critical path impact (delays deadline?)
+   - Buffer hours available
+   - Constitutional compliance check
+3. **Decide** using plan.md decision matrix:
+   - <2h + No critical path = APPROVE
+   - 2-8h + Limited buffer = CONDITIONAL or DEFER
+   - >8h = REJECT (requires re-planning)
+4. **Implement** (if approved):
+   - Update spec.md version number
+   - Update affected modules/components
+   - Adjust resource allocation and timeline
+   - Create PHR documenting change
+
+**Scope Freeze Enforcement**:
+- Check plan.md for scope freeze dates
+- Reject all changes after freeze unless P0 (critical bug)
+- Rationale: Prevents scope creep, maintains single-threaded focus
+
+### 5. Continuous Improvement Framework
+
+**After each module/milestone completion**:
+1. **Document learnings** in `specs/<feature>/lessons-learned.md`:
+   - What went well ✅
+   - What went wrong ❌
+   - Root cause analysis
+   - Template/workflow adjustments needed
+   - Metrics: actual vs. estimated time, quality metrics
+
+2. **Update templates** (if patterns emerge):
+   - Modify `specs/<feature>/contracts/` templates
+   - Update `specs/<feature>/quickstart.md` with new best practices
+   - Document automation opportunities (repeated manual tasks >3 times)
+
+3. **Apply to next milestone**:
+   - Brief 5-minute review before starting next module
+   - Implement process improvements immediately
+   - Track efficiency gains (target: 10-15% improvement per milestone)
+
+**Expected Outcomes**:
+- Compounding efficiency gains (10-15% by final milestone)
+- Reduced validation failures (20-30% fewer by mid-project)
+- Template quality improvement (fewer placeholder issues)
+
+### 6. Performance Monitoring (if applicable)
+
+**Baseline Measurements** (if plan includes Performance Baseline section):
+- Measure after pilot/first milestone deployment
+- Re-measure at midpoint and final deployment
+- Metrics: Load time, build time, artifact size, quality scores
+
+**Performance Degradation Response**:
+- Check plan.md "Performance Degradation Response Plan"
+- Apply solutions from decision table (image optimization, lazy loading, etc.)
+- Document in lessons-learned.md if degradation impacts workflow
+
+### 7. Project-Specific Workflows
+
+**Always check for these sections in plan.md**:
+- "Execution Timeline & Milestones" → Follow phase-based schedule
+- "Resource Allocation Matrix" → Track actual vs. budgeted hours
+- "Dependency Graph & Critical Path" → Identify parallelization opportunities
+- "Stakeholder Communication Plan" → Follow review cadence
+
+**Constitution Alignment**:
+- Section 0.1.II (Single-Threaded Focus) → One module/milestone at a time
+- Section 0.1.III (Incremental Validation) → Validate each module before next
+- Section 0.2 (Universal Decision Framework) → 30-minute decision thresholds
+- Section 7.1 (Time Budget) → Actual hours must align with allocation
+
 ## Basic Project Structure
 
 - `.specify/memory/constitution.md` — Project principles
 - `specs/<feature>/spec.md` — Feature requirements
-- `specs/<feature>/plan.md` — Architecture decisions
+- `specs/<feature>/plan.md` — Architecture decisions + execution plan
 - `specs/<feature>/tasks.md` — Testable tasks with cases
+- `specs/<feature>/communication-log.md` — Weekly progress tracking (if enhanced plan)
+- `specs/<feature>/lessons-learned.md` — Continuous improvement log (if enhanced plan)
+- `specs/<feature>/validation-failures/` — Validation failure reports (target: empty)
+- `specs/<feature>/change-requests/` — Formal change requests (target: 0-3 total)
 - `history/prompts/` — Prompt History Records
 - `history/adr/` — Architecture Decision Records
 - `.specify/` — SpecKit Plus templates and scripts

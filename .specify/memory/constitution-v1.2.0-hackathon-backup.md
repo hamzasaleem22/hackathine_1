@@ -1,3 +1,4 @@
+
 # Physical AI & Humanoid Robotics Interactive Textbook Platform Constitution
 
 <!--
@@ -356,7 +357,7 @@ When sections of this constitution conflict, apply this precedence order (highes
 **MVP-0 (Day 7 - Week 1 Milestone)**:
 - [ ] Docusaurus site deployed with landing page
 - [ ] Module 1 published (Introduction to Physical AI)
-- [ ] Chatbot working with Module 1 content ONLY
+- [ ] Chatbot working with all Module 1 content 
 - [ ] Minimum 3 test queries answering correctly with citations
 - [ ] Publicly accessible URL
 - **Demo-able**: Can show judges a complete end-to-end flow for Module 1
