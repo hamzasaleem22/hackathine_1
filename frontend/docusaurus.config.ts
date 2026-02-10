@@ -45,6 +45,10 @@ const config: Config = {
     mermaid: true, // Enable Mermaid diagram support
   },
 
+  plugins: [
+    'docusaurus-plugin-structurizr', // C4 architecture diagrams
+  ],
+
   presets: [
     [
       'classic',
