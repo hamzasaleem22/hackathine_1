@@ -105,7 +105,7 @@ Physical AI systems operate under strict temporal constraints imposed by the dyn
 **Computational Budget Analysis**: Consider a humanoid robot with 30 degrees of freedom (DOF) running a model predictive controller (MPC) at 100 Hz. The MPC must solve a constrained optimization problem with 30 state variables, 30 control inputs, and a 50-step prediction horizon within 10 ms (the control period). This real-time constraint fundamentally limits the complexity of algorithms that can be deployed:
 
 $$
-t_{\text{compute}} + t_{\text{communication}} < T_{\text{control}} = \frac{1}{f_{\text{control}}}
+t_{compute} + t_{communication} \lt T_{control} = \frac{1}{f_{control}}
 $$
 
 where $f_{\text{control}} = 100$ Hz implies $T_{\text{control}} = 10$ ms.
