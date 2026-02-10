@@ -14,17 +14,22 @@ import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
  */
 const sidebars: SidebarsConfig = {
   tutorialSidebar: [
-    'intro', // Landing page
+    'index', // Textbook overview
     {
       type: 'category',
       label: 'Module 0: Introduction to Physical AI',
       link: {
-        type: 'generated-index',
-        title: 'Module 0: Introduction to Physical AI',
-        description: 'Foundational concepts: Physical AI principles, embodied intelligence, humanoid robotics landscape, and sensor systems.',
+        type: 'doc',
+        id: 'module-0/index',
       },
       collapsed: false,
-      items: [],
+      items: [
+        'module-0/principles',
+        'module-0/embodied-intelligence',
+        'module-0/humanoid-landscape',
+        'module-0/sensor-systems',
+        'module-0/assessment',
+      ],
     },
     {
       type: 'category',
