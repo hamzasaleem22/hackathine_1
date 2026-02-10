@@ -118,7 +118,7 @@ Evaluating humanoid robots requires standardized metrics across multiple domains
 
 - **Walking Speed**: Meters per second on flat terrain (human: 1.4 m/s average)
 - **Terrain Capability**: Types of surfaces navigable (flat, inclined, stairs, rubble)
-- **Energy Efficiency**: Cost of Transport (COT) = `\frac{E}{mgd}` where `E` is energy consumed, `m` is mass, `g` is gravity, `d` is distance
+- **Energy Efficiency**: Cost of Transport (COT) = `(E)/(mgd)` where `E` is energy consumed, `m` is mass, `g` is gravity, `d` is distance
 - **Stability**: Can the robot maintain balance under external disturbances (pushes, uneven ground)?
 
 **Human COT Benchmark**: 0.2 (highly efficient)
@@ -284,9 +284,9 @@ Optimus uses an **occupancy network** architecture:
 
 **Training**: Imitation learning from human teleoperation (VR controllers) + reinforcement learning in simulation
 
-$$
-\pi_\theta(\mathbf{a}_t | \mathbf{o}_t) = \text{Transformer}(\text{OccupancyNet}(\text{images}_t))
-$$
+```
+\pi_θ(a_t | o_t) = Transformer(OccupancyNet(images_t))
+```
 
 *Equation 3.3: End-to-end visuomotor policy (images → actions)*
 
@@ -428,7 +428,7 @@ Sanctuary focuses on **human-robot collaboration in service industries**—retai
 - Healthcare assistance (delivering supplies, patient monitoring)
 - Janitorial services
 
-**Business Model**: Robot-as-a-Service with emphasis on ease of deployment—claims customers can deploy Phoenix with <1 week of setup (vs. 1-3 months for traditional automation).
+**Business Model**: Robot-as-a-Service with emphasis on ease of deployment—claims customers can deploy Phoenix with &lt;1 week of setup (vs. 1-3 months for traditional automation).
 
 ### Comparative Analysis
 
@@ -641,7 +641,7 @@ Test your understanding with these questions:
 
 - **[← Previous: Embodied Intelligence](./embodied-intelligence)**
 - **[Next: Sensor Systems for Robots →](./sensor-systems)**
-- **[Module Overview](./index)**
+- **[Module Overview](.)**
 
 ---
 

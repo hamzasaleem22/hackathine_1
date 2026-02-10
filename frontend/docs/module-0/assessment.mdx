@@ -1,0 +1,157 @@
+---
+title: "Module 0 Self-Assessment"
+sidebar_position: 5
+description: "Validate your understanding of Physical AI fundamentals, embodied intelligence, humanoid platforms, and sensor systems"
+---
+
+# Module 0 Self-Assessment
+
+Complete this self-assessment to validate your understanding of Module 0 content before proceeding to Module 1.
+
+## Assessment Questions
+
+### Question 1: Physical AI Fundamentals
+
+**What are the three key differences between Physical AI and traditional software-based AI?**
+
+**Grading Criteria**:
+- Must identify **embodiment** (physical constraints, inertia, actuator limits)
+- Must identify **real-time constraints** (cannot pause to compute, closed-loop control)
+- Must identify **uncertainty** (sensor noise, unmodeled dynamics, unpredictable environments)
+
+**Expected Response Length**: 3-5 sentences
+
+---
+
+### Question 2: Morphological Computation
+
+**Explain how morphological computation reduces computational burden in robotic systems. Provide one specific example.**
+
+**Grading Criteria**:
+- Definition: exploiting body mechanics/materials to simplify control
+- Example must show how physical structure performs computation (e.g., passive dynamic walking, compliant grippers, underactuated hands)
+- Must explain what computation is offloaded to morphology
+
+**Expected Response Length**: 4-6 sentences
+
+**Hint**: Review Chapter 2, Section "Morphological Computation" (lines 145-185)
+
+---
+
+### Question 3: Humanoid Platform Comparison
+
+**Compare Boston Dynamics Atlas and Tesla Optimus: What are their primary design philosophies and target applications?**
+
+**Grading Criteria**:
+- **Atlas**: Hydraulic actuation, research/dynamic locomotion, model-based optimal control, ~$1M+
+- **Optimus**: Electric actuation, factory automation/consumer markets, neural network policies, target &lt;$50K
+- Must contrast at least 2 dimensions (actuation, application, cost, or control strategy)
+
+**Expected Response Length**: 5-7 sentences
+
+**Reference**: Chapter 3, Table comparing Atlas vs. Optimus
+
+---
+
+### Question 4: Sensor Selection
+
+**You are designing a humanoid robot for indoor navigation. Which sensor modality would you prioritize and why?**
+
+**Consider**:
+- LIDAR (accurate range, 360° coverage, expensive, ~10 Hz)
+- RGB-D camera (depth + color, 30-60 Hz, limited range &lt;10m)
+- IMU (orientation, high-rate 200+ Hz, no external reference)
+
+**Grading Criteria**:
+- Must justify choice based on indoor navigation requirements (obstacle detection, path planning, localization)
+- Must acknowledge trade-offs (cost, range, update rate, computational load)
+- Acceptable answers: RGB-D camera (good balance) or LIDAR (high accuracy) with valid reasoning
+
+**Expected Response Length**: 6-8 sentences
+
+**Reference**: Chapter 4, Sections on LIDAR, RGB-D cameras, and sensor fusion
+
+---
+
+### Question 5: Sensorimotor Coupling
+
+**Describe how sensorimotor coupling enables a robot to walk on uneven terrain without explicit terrain mapping.**
+
+**Grading Criteria**:
+- Must explain closed-loop control (perception → action → perception)
+- Must describe reactive adjustments based on feedback (e.g., foot contact forces, IMU tilt)
+- Must contrast with open-loop planning (which requires explicit terrain models)
+- Bonus: Mention specific mechanisms (ZMP adjustment, impedance control, reflexes)
+
+**Expected Response Length**: 6-8 sentences
+
+**Reference**: Chapter 2, Section "Sensorimotor Coupling in Robotic Systems"
+
+---
+
+## Scoring Rubric
+
+**Total Points**: 100
+
+| Question | Points | Topic |
+|----------|--------|-------|
+| Q1 | 20 | Physical AI vs Traditional AI |
+| Q2 | 20 | Morphological Computation |
+| Q3 | 20 | Humanoid Platforms |
+| Q4 | 20 | Sensor Systems |
+| Q5 | 20 | Sensorimotor Coupling |
+
+**Passing Score**: 70/100 (3.5/5 questions correct)
+
+---
+
+## Answer Key (Hidden - Expand After Completing Assessment)
+
+<details>
+<summary>Click to reveal answer key</summary>
+
+### Q1 Sample Answer
+
+Physical AI differs from traditional AI in three critical ways: (1) **Embodiment** - the system must respect physical constraints like inertia, actuator torque limits, and mechanical stability, whereas software AI operates in unconstrained computational spaces. (2) **Real-time constraints** - decisions must be made within milliseconds to maintain balance or avoid collisions, unlike offline ML models that can take hours to process data. (3) **Uncertainty** - sensors provide noisy, incomplete observations of the environment, and the robot's own dynamics are subject to unmodeled disturbances (e.g., ground friction variations), requiring robust state estimation and control.
+
+---
+
+### Q2 Sample Answer
+
+Morphological computation exploits the physical structure and material properties of a robot's body to perform computational tasks that would otherwise require complex control algorithms. For example, passive dynamic walking uses leg geometry and natural pendulum dynamics to generate stable walking gaits without active control—gravity and inertia perform the "computation" of swing-leg trajectory. This reduces the need for precise torque commands at every joint, allowing simpler controllers and lower computational overhead. The compliance of materials (like soft grippers) can also absorb positioning errors, reducing the precision required from vision-based control.
+
+---
+
+### Q3 Sample Answer
+
+Boston Dynamics Atlas and Tesla Optimus represent two distinct design philosophies in humanoid robotics. Atlas prioritizes **research and dynamic locomotion demonstrations**, using hydraulic actuators that provide high power density for explosive movements like backflips, but at the cost of weight, complexity, and an estimated price exceeding $1M. Its control strategy relies on model-based optimal control algorithms that compute joint torques to track desired trajectories. In contrast, Optimus targets **factory automation and consumer markets** with electric actuators that are quieter, more energy-efficient, and cheaper to manufacture (target price &lt;$50K). Optimus uses neural network policies trained in simulation (sim-to-real transfer) rather than analytical models, enabling it to learn manipulation tasks from demonstration data. While Atlas excels at research-grade agility, Optimus focuses on mass production and practical utility.
+
+---
+
+### Q4 Sample Answer
+
+For indoor navigation, I would prioritize an **RGB-D camera** as the primary sensor modality. RGB-D cameras provide both color imagery and depth information at 30-60 Hz, which is sufficient for real-time obstacle avoidance and semantic scene understanding (e.g., identifying doors, furniture, people). The depth range of 0.5-10m is well-suited for indoor environments where obstacles are typically within 5m. Compared to LIDAR, RGB-D cameras are significantly cheaper (~$200 vs $5,000+) and provide color information useful for visual SLAM (loop closure detection) and object recognition. While LIDAR offers higher accuracy and 360° coverage, its lower update rate (~10 Hz) and cost make it less practical for consumer-grade indoor robots. An IMU would be included as a complementary sensor for orientation estimation and sensor fusion (e.g., Kalman filter combining visual odometry and inertial measurements), but it cannot detect obstacles on its own. The RGB-D camera offers the best balance of cost, performance, and suitability for indoor navigation tasks.
+
+---
+
+### Q5 Sample Answer
+
+Sensorimotor coupling enables walking on uneven terrain through continuous closed-loop feedback between perception and action, eliminating the need for explicit terrain mapping. When a humanoid robot steps on an unexpected slope, sensors (IMU detecting tilt, force sensors measuring ground reaction forces) immediately detect the disturbance. The control system reactively adjusts joint torques to maintain balance—for example, by shifting the Zero Moment Point (ZMP) within the support polygon or modulating impedance to absorb impact. This happens in milliseconds, far faster than planning a new footstep based on a terrain map. Unlike open-loop approaches that pre-plan footsteps based on vision-derived terrain models, sensorimotor coupling exploits the natural dynamics of the body: if the robot starts tipping forward, increased ankle torque and forward hip flexion counteract the disturbance without needing to "know" the terrain's exact geometry. This reactive strategy mirrors biological reflexes and is robust to model uncertainty.
+
+</details>
+
+---
+
+## Next Steps
+
+After completing this assessment:
+
+1. **Score**: 70+ points → Proceed to [Module 1: ROS 2 & Robotics Middleware](../module-1/)
+2. **Score**: &lt;70 points → Review flagged chapters and retry assessment
+3. **Optional**: Explore primary sources cited in Module 0 for deeper understanding
+
+---
+
+**Assessment Version**: 1.0.0
+**Last Updated**: 2026-02-10
+**Estimated Time**: 2 hours (writing + reflection)

@@ -94,9 +94,9 @@ graph TD
 
 A point cloud is a set of `N` 3D points:
 
-$$
+```
 \mathcal{P} = \{(x_i, y_i, z_i) \mid i = 1, ..., N\}
-$$
+```
 
 Each point may also carry **intensity** (reflectivity of surface) and **label** (semantic class).
 
@@ -133,9 +133,9 @@ where R is rotation matrix (3×3) and t is translation vector (3×1).
 - Match corresponding pixels in left and right images
 - Compute depth from disparity `d`:
 
-$$
-z = \frac{fb}{d}
-$$
+```
+z = (fb)/(d)
+```
 
 where `f` is focal length, `b` is baseline, `d` is pixel disparity (difference in x-coordinate between matched pixels).
 
@@ -149,7 +149,7 @@ where `f` is focal length, `b` is baseline, `d` is pixel disparity (difference i
 **Time-of-Flight (ToF)** (e.g., Microsoft Kinect v2, Photoneo):
 - Similar to LIDAR but uses modulated light (e.g., 20 MHz sine wave)
 - Measure phase shift of reflected light
-- Depth: `z = \frac{c \phi}{4\pi f}` where `\phi` is phase shift, `f` is modulation frequency
+- Depth: `z = (c φ)/(4\pi f)` where `φ` is phase shift, `f` is modulation frequency
 
 *Equation 4.4: Time-of-Flight depth measurement*
 
@@ -159,9 +159,9 @@ RGB-D cameras produce an **aligned depth map**: for each RGB pixel `(u, v)`, the
 
 **Conversion to 3D Point**:
 
-$$
+```
 \begin{bmatrix} x \\ y \\ z \end{bmatrix} = z \begin{bmatrix} (u - c_x) / f_x \\ (v - c_y) / f_y \\ 1 \end{bmatrix}
-$$
+```
 
 where `(c_x, c_y)` is principal point (image center) and `(f_x, f_y)` are focal lengths in pixels.
 
@@ -190,9 +190,9 @@ where `(c_x, c_y)` is principal point (image center) and `(f_x, f_y)` are focal 
 
 #### 4.3.1 Sensor Components
 
-**3-Axis Gyroscope**: Measures angular velocity `\boldsymbol{\omega} = (\omega_x, \omega_y, \omega_z)` in rad/s around each axis.
+**3-Axis Gyroscope**: Measures angular velocity `ω = (ω_x, ω_y, ω_z)` in rad/s around each axis.
 
-**3-Axis Accelerometer**: Measures linear acceleration `\mathbf{a} = (a_x, a_y, a_z)` in m/s². Includes both:
+**3-Axis Accelerometer**: Measures linear acceleration `a = (a_x, a_y, a_z)` in m/s². Includes both:
 - **Dynamic acceleration** (robot motion)
 - **Gravitational acceleration** (`-9.81` m/s² in Earth frame)
 
@@ -200,37 +200,37 @@ where `(c_x, c_y)` is principal point (image center) and `(f_x, f_y)` are focal 
 
 #### 4.3.2 Orientation Estimation
 
-**Goal**: Estimate robot orientation `\mathbf{q}` (as quaternion) from gyroscope and accelerometer readings.
+**Goal**: Estimate robot orientation `q` (as quaternion) from gyroscope and accelerometer readings.
 
 **Complementary Filter** (simple, real-time):
 
 1. **Gyroscope Integration** (high-frequency, no drift correction):
    $$
-   \mathbf{q}_{\text{gyro}}(t+\Delta t) = \mathbf{q}(t) \otimes \exp\left(\frac{\Delta t}{2} \boldsymbol{\omega}\right)
+   q_gyro(t+\Delta t) = q(t) \otimes \exp\left((\Delta t)/(2) ω\right)
    $$
 
 2. **Accelerometer Tilt** (low-frequency, corrects drift):
-   - Assumes `\mathbf{a} \approx \mathbf{g}` (gravity) when robot is stationary
+   - Assumes `a ≈ g` (gravity) when robot is stationary
    - Compute orientation from gravity direction
 
 3. **Fusion**:
    $$
-   \mathbf{q}(t+\Delta t) = \alpha \mathbf{q}_{\text{gyro}} + (1-\alpha) \mathbf{q}_{\text{accel}}
+   q(t+\Delta t) = \alpha q_gyro + (1-\alpha) q_accel
    $$
    where `\alpha = 0.95-0.99` (high-pass gyro, low-pass accel).
 
 *Equation 4.6: Complementary filter for orientation estimation*
 
 **Extended Kalman Filter (EKF)** (more accurate, handles sensor noise models):
-- State: `\mathbf{x} = [\mathbf{q}, \boldsymbol{\omega}, \mathbf{b}_{\omega}]` (orientation, angular velocity, gyro bias)
+- State: `x = [q, ω, b_ω]` (orientation, angular velocity, gyro bias)
 - Prediction: Integrate gyroscope
 - Update: Correct with accelerometer + magnetometer
 
 #### 4.3.3 Challenges
 
-**Gyroscope Drift**: Integration of `\boldsymbol{\omega}` accumulates errors over time → orientation drifts (1-10°/minute for consumer IMUs)
+**Gyroscope Drift**: Integration of `ω` accumulates errors over time → orientation drifts (1-10°/minute for consumer IMUs)
 
-**Accelerometer Noise**: During dynamic motion, `\mathbf{a} \neq \mathbf{g}` → cannot use accelerometer for tilt correction
+**Accelerometer Noise**: During dynamic motion, `a \neq g` → cannot use accelerometer for tilt correction
 
 **Magnetometer Distortion**: Indoor magnetic fields from electronics distort compass readings
 
@@ -582,21 +582,21 @@ while True:
 
 #### Extended Kalman Filter (EKF)
 
-**State**: `\mathbf{x} = [x, y, z, q_w, q_x, q_y, q_z, v_x, v_y, v_z]` (position, orientation quaternion, velocity)
+**State**: `x = [x, y, z, q_w, q_x, q_y, q_z, v_x, v_y, v_z]` (position, orientation quaternion, velocity)
 
 **Prediction** (IMU at 1 kHz):
-$$
-\mathbf{x}_{k+1} = f(\mathbf{x}_k, \mathbf{u}_k) + \mathbf{w}_k
-$$
+```
+x_k+1 = f(x_k, u_k) + w_k
+```
 
-where `\mathbf{u}_k` is IMU measurement (accel, gyro) and `\mathbf{w}_k \sim \mathcal{N}(0, \mathbf{Q})` is process noise.
+where `u_k` is IMU measurement (accel, gyro) and `w_k \sim \mathcal{N}(0, Q)` is process noise.
 
 **Update** (Visual odometry at 30 Hz):
-$$
-\mathbf{z}_k = h(\mathbf{x}_k) + \mathbf{v}_k
-$$
+```
+z_k = h(x_k) + v_k
+```
 
-where `\mathbf{z}_k` is pose from vision and `\mathbf{v}_k \sim \mathcal{N}(0, \mathbf{R})` is measurement noise.
+where `z_k` is pose from vision and `v_k \sim \mathcal{N}(0, R)` is measurement noise.
 
 *Equation 4.7: EKF prediction and update steps*
 
@@ -688,18 +688,18 @@ Test your understanding with these questions:
 
    **Why IMU Drifts**:
 
-   **Gyroscope Integration**: Orientation is computed by integrating angular velocity `\boldsymbol{\omega}`:
+   **Gyroscope Integration**: Orientation is computed by integrating angular velocity `ω`:
    $$
-   \mathbf{q}(t) = \mathbf{q}(0) \otimes \int_0^t \boldsymbol{\omega}(\tau) d\tau
+   q(t) = q(0) \otimes \int_0^t ω(τ) dτ
    $$
 
    - Gyroscope measurements have **bias** (constant offset) and **noise** (random fluctuations)
    - Integration of bias accumulates linearly: after 60 seconds with 0.1°/s bias → 6° error
-   - Integration of noise accumulates as random walk: `\sigma_{\theta}(t) \propto \sqrt{t}`
+   - Integration of noise accumulates as random walk: `\sigma_θ(t) \propto \sqrt{t}`
 
    **Accelerometer Drift**: Position requires double integration of acceleration:
    $$
-   \mathbf{p}(t) = \mathbf{p}(0) + \int_0^t \int_0^\tau \mathbf{a}(\tau') d\tau' d\tau
+   p(t) = p(0) + \int_0^t \int_0^τ a(τ') dτ' dτ
    $$
 
    - Accelerometer bias accumulates quadratically: after 60s with 0.01 m/s² bias → 18 m error!
@@ -770,14 +770,14 @@ Test your understanding with these questions:
 
    From stereo depth equation:
    $$
-   z = \frac{fb}{d}
+   z = (fb)/(d)
    $$
 
    where `f` = focal length, `b` = baseline (camera separation), `d` = disparity (pixel difference).
 
    **Uncertainty Analysis**: If disparity has uncertainty `\sigma_d` (typically ±0.5 to ±1 pixel due to matching errors), depth uncertainty is:
    $$
-   \sigma_z = \frac{\partial z}{\partial d} \sigma_d = \frac{fb}{d^2} \sigma_d = \frac{z^2}{fb} \sigma_d
+   \sigma_z = (\partial z)/(\partial d) \sigma_d = (fb)/(d^2) \sigma_d = (z^2)/(fb) \sigma_d
    $$
 
    **Key Insight**: Depth error grows **quadratically** with distance `z^2`.
@@ -785,9 +785,9 @@ Test your understanding with these questions:
    *Equation 4.8: Stereo depth uncertainty (quadratic with distance)*
 
    **Numerical Example** (RealSense D435: `f=` 525 px, `b=` 50 mm):
-   - At 1 m: `\sigma_z = \frac{1^2}{525 \times 0.05} \times 0.5 \approx 0.019` m = 1.9 cm
-   - At 3 m: `\sigma_z = \frac{3^2}{525 \times 0.05} \times 0.5 \approx 0.17` m = 17 cm
-   - At 5 m: `\sigma_z = \frac{5^2}{525 \times 0.05} \times 0.5 \approx 0.48` m = 48 cm
+   - At 1 m: `\sigma_z = (1^2)/(525 × 0.05) × 0.5 ≈ 0.019` m = 1.9 cm
+   - At 3 m: `\sigma_z = (3^2)/(525 × 0.05) × 0.5 ≈ 0.17` m = 17 cm
+   - At 5 m: `\sigma_z = (5^2)/(525 × 0.05) × 0.5 ≈ 0.48` m = 48 cm
 
    **Why This Happens**:
    - Disparity `d` decreases with distance (farther objects → smaller pixel difference)
@@ -803,7 +803,7 @@ Test your understanding with these questions:
 
    **Complementary Filter Review**:
    $$
-   \mathbf{q}(t+\Delta t) = \alpha \mathbf{q}_{\text{gyro}} + (1-\alpha) \mathbf{q}_{\text{accel}}
+   q(t+\Delta t) = \alpha q_gyro + (1-\alpha) q_accel
    $$
 
    - `\alpha` near 1: Trust gyro more (high-frequency, responsive)
@@ -823,7 +823,7 @@ Test your understanding with these questions:
 
    **Effect**:
    - **Pros**: Strong drift correction (10% weight on accel each update) → orientation stays within ±1° of true
-   - **Cons**: Sluggish response to actual motion; during dynamic maneuvers (jumping, fast turns), accelerometer measures `\mathbf{a} \neq \mathbf{g}` → filter incorrectly interprets as tilt
+   - **Cons**: Sluggish response to actual motion; during dynamic maneuvers (jumping, fast turns), accelerometer measures `a \neq g` → filter incorrectly interprets as tilt
 
    **When to use**: Slow-moving or stationary robots where gyro drift is primary concern and dynamic accelerations are minimal
 
@@ -864,7 +864,7 @@ Test your understanding with these questions:
 ## Navigation
 
 - **[← Previous: Humanoid Robotics Landscape](./humanoid-landscape)**
-- **[Module Overview](./index)** | **[Module 0 Assessment](./assessment)**
+- **[Module Overview](.)** | **[Module 0 Assessment](./assessment)**
 - **[Next Module: ROS 2 & Robotics Middleware →](../module-1/)**
 
 ---

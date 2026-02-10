@@ -102,9 +102,9 @@ We can formalize morphological computation using information theory. Consider a 
 
 The **morphological contribution** is the mutual information between body state and action that is not mediated by the controller:
 
-$$
+```
 MC = I(B_t; A_t) - I(M_t; A_t | B_t)
-$$
+```
 
 *Equation 2.1: Morphological computation as information processed by the body*
 
@@ -159,22 +159,22 @@ These contingencies (how perception changes with action) are part of what it mea
 
 Let `S_t` be sensory state and `A_t` be action. The sensorimotor contingency function defines the mapping:
 
-$$
-S_{t+1} = f(S_t, A_t, E_t)
-$$
+```
+S_t+1 = f(S_t, A_t, E_t)
+```
 
 where `E_t` represents environmental state. An agent with accurate internal model `\hat{f}` can predict sensory consequences of actions:
 
-$$
-\hat{S}_{t+1} = \hat{f}(S_t, A_t)
-$$
+```
+\hat{S}_t+1 = \hat{f}(S_t, A_t)
+```
 
 *Equation 2.2: Predictive model of sensorimotor contingencies*
 
 **Robotic Implementation**: Robots can learn sensorimotor contingencies through interaction:
 
-1. **Data Collection**: Execute random actions, record `(S_t, A_t, S_{t+1})` tuples
-2. **Model Learning**: Train neural network `\hat{f}_\theta` to predict `S_{t+1}` from `(S_t, A_t)`
+1. **Data Collection**: Execute random actions, record `(S_t, A_t, S_t+1)` tuples
+2. **Model Learning**: Train neural network `\hat{f}_θ` to predict `S_t+1` from `(S_t, A_t)`
 3. **Action Selection**: Choose actions that bring predicted sensory state closer to goal
 
 This approach, called **forward model learning**, is foundational in developmental robotics [8].
@@ -208,9 +208,9 @@ graph LR
 - Boston Dynamics Atlas: Hydraulic actuators provide high power but low efficiency (~25% mechanical efficiency)
 - Agility Robotics Digit: Hybrid design with springs in series with motors—passive energy storage reduces power consumption by 30-40%
 
-$$
-E_{passive} = \frac{1}{2} k x^2
-$$
+```
+E_passive = (1)/(2) k x^2
+```
 
 where `k` is spring stiffness and `x` is compression. Energy stored during impact, released during push-off—no electrical energy required.
 
@@ -240,11 +240,11 @@ where `k` is spring stiffness and `x` is compression. Energy stored during impac
 
 2. **Body Attitude Control** (pitch angle):
    - Use hip torque to keep body vertical during flight phase
-   - PD controller: `\tau_{\text{hip}} = k_p (\theta_d - \theta) + k_d (\dot{\theta}_d - \dot{\theta})`
+   - PD controller: `τ_hip = k_p (θ_d - θ) + k_d (\dot{θ}_d - \dot{θ})`
 
 3. **Horizontal Velocity Control** (forward speed):
    - Adjust foot placement angle during flight to accelerate/decelerate
-   - Foot placement: `x_{\text{foot}} = x_{\text{body}} + \frac{v_x}{2\omega_0}` where `\omega_0` is natural frequency
+   - Foot placement: `x_foot = x_body + (v_x)/(2ω_0)` where `ω_0` is natural frequency
 
 **Morphological Contribution**:
 - The **pneumatic spring** naturally stores/releases energy at each hop—no explicit trajectory planning needed for vertical motion
@@ -404,11 +404,11 @@ execute_motor_command(motor_cmd)  # Reach toward target
 - Equip robot with 6-axis force/torque sensor (`5,000-`15,000)
 - Implement active compliance control:
 
-$$
-\mathbf{x}_{\text{desired}} = \mathbf{x}_{\text{nominal}} + \mathbf{C}_f (\mathbf{f}_{\text{measured}} - \mathbf{f}_{\text{desired}})
-$$
+```
+x_desired = x_nominal + C_f (f_measured - f_desired)
+```
 
-where `\mathbf{C}_f` is compliance matrix (how much position changes per unit force).
+where `C_f` is compliance matrix (how much position changes per unit force).
 
 *Equation 2.4: Active force control for compliant assembly*
 
@@ -506,12 +506,12 @@ Test your understanding with these questions:
 
    **Structure**:
    - Motor → Gearbox → Spring → Arm link
-   - Spring deflection `x` measured indirectly: `x = \theta_{\text{motor}} - \theta_{\text{link}}`
+   - Spring deflection `x` measured indirectly: `x = θ_motor - θ_link`
 
    **Operation**:
    - Spring compliance means unexpected contact forces cause spring compression (not rigid arm motion)
-   - Maximum force physically limited by spring: `F_{\text{max}} = k \cdot x_{\text{max}}` where `k` is spring stiffness
-   - Choose `k` such that `F_{\text{max}} < 50` N (safe for human contact per ISO/TS 15066)
+   - Maximum force physically limited by spring: `F_max = k \cdot x_max` where `k` is spring stiffness
+   - Choose `k` such that `F_max < 50` N (safe for human contact per ISO/TS 15066)
 
    **Safety property**: Even if control fails, the passive spring limits force—morphological computation provides intrinsic safety. Compare to rigid robot requiring fast force feedback (1 kHz) to limit contact forces.
    </details>
@@ -527,7 +527,7 @@ Test your understanding with these questions:
    - Moving closer → image expands uniformly
    - Occluding one eye → binocular disparity changes
 
-   A robot that learns these contingencies (e.g., via forward model `\hat{S}_{t+1} = f(S_t, A_t)`) can distinguish cubes from spheres:
+   A robot that learns these contingencies (e.g., via forward model `\hat{S}_t+1 = f(S_t, A_t)`) can distinguish cubes from spheres:
    - **Cube**: Discrete face transitions when rotating
    - **Sphere**: Smooth continuous shading changes when rotating
 
@@ -586,7 +586,7 @@ Test your understanding with these questions:
 
 - **[← Previous: Physical AI Principles](./principles)**
 - **[Next: Humanoid Robotics Landscape →](./humanoid-landscape)**
-- **[Module Overview](./index)**
+- **[Module Overview](.)**
 
 ---
 
