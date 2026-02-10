@@ -69,8 +69,6 @@ const config: Config = {
           // Remove this to remove the "edit this page" links.
           editUrl:
             'https://github.com/Msaleemakhtar/hackathine_1/tree/main/frontend/',
-          remarkPlugins: [require('remark-math')],
-          rehypePlugins: [require('rehype-katex')],
         },
         blog: {
           showReadingTime: true,

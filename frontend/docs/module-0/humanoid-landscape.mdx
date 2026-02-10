@@ -118,7 +118,7 @@ Evaluating humanoid robots requires standardized metrics across multiple domains
 
 - **Walking Speed**: Meters per second on flat terrain (human: 1.4 m/s average)
 - **Terrain Capability**: Types of surfaces navigable (flat, inclined, stairs, rubble)
-- **Energy Efficiency**: Cost of Transport (COT) = $\frac{E}{mgd}$ where $E$ is energy consumed, $m$ is mass, $g$ is gravity, $d$ is distance
+- **Energy Efficiency**: Cost of Transport (COT) = `\frac{E}{mgd}` where `E` is energy consumed, `m` is mass, `g` is gravity, `d` is distance
 - **Stability**: Can the robot maintain balance under external disturbances (pushes, uneven ground)?
 
 **Human COT Benchmark**: 0.2 (highly efficient)
@@ -209,11 +209,10 @@ Atlas uses a hierarchical control system:
    - Friction cone limits (no slipping)
    - Joint torque limits
 
-$$
-\min_{\tau} \|\mathbf{J}^\top \tau - \mathbf{F}_{\text{desired}}\|^2 + \lambda \|\tau\|^2
-$$
-
-subject to: $\tau_{\min} \leq \tau \leq \tau_{\max}$, friction cone constraints
+```
+minimize: ||J^T × τ - F_desired||^2 + λ||τ||^2
+subject to: τ_min ≤ τ ≤ τ_max, friction cone constraints
+```
 
 *Equation 3.2: Whole-body control optimization (simplified)*
 
@@ -247,11 +246,11 @@ Atlas's open-source simulation models (available in Drake, MuJoCo) have enabled 
 
 #### Design Philosophy
 
-Optimus is designed for **scalable manufacturing and deployment in human environments** (factories, homes). Tesla leverages automotive manufacturing expertise to target a price point of **$20,000-$50,000** at volume production [2].
+Optimus is designed for **scalable manufacturing and deployment in human environments** (factories, homes). Tesla leverages automotive manufacturing expertise to target a price point of **`20,000-`50,000** at volume production [2].
 
 **Key Innovations**:
 
-1. **Vision-Based Perception**: No LIDAR (expensive, ~$1,000-$10,000). Uses neural networks trained on Tesla's automotive dataset (billions of images) for 3D understanding
+1. **Vision-Based Perception**: No LIDAR (expensive, ~`1,000-`10,000). Uses neural networks trained on Tesla's automotive dataset (billions of images) for 3D understanding
 2. **Actuator Integration**: Custom-designed actuators with integrated electronics (reduces part count and assembly time)
 3. **Dexterous Hands**: 11 DOF per hand with tactile sensors—enables fine manipulation (turning valves, picking small parts)
 4. **Sim-to-Real Pipeline**: Policies trained in Isaac Gym (GPU parallelization enables 1000× speedup) with domain randomization
@@ -330,7 +329,7 @@ Figure AI focuses on **commercial viability first**—designing for specific hig
 **Deployment Strategy**:
 - **Target**: Manufacturing and logistics (75% of initial addressable market)
 - **Metrics**: Cycle time competitive with humans (8-12 sec per pick), 85-90% task success rate
-- **Business Model**: Robot-as-a-Service (RaaS)—customers pay per hour of operation ($20-30/hr target, vs. $25-35/hr human labor cost)
+- **Business Model**: Robot-as-a-Service (RaaS)—customers pay per hour of operation (`20-30/hr target, vs. `25-35/hr human labor cost)
 
 **VLA Architecture**:
 
@@ -357,7 +356,7 @@ sequenceDiagram
 **Performance Metrics** (from pilot deployments):
 - **Uptime**: 82% (target: >95% for production)
 - **Task Success Rate**: 87% (warehouse picking), 78% (assembly kitting)
-- **Cost per Task**: $0.15 (vs. $0.20 human equivalent)
+- **Cost per Task**: `0.15 (vs. `0.20 human equivalent)
 - **Learning Curve**: 50 hours of human teleoperation data → 85% autonomous success rate
 
 ### Example 4: Unitree H1 - The Research Platform
@@ -365,7 +364,7 @@ sequenceDiagram
 **Status**: Commercially available to research institutions
 **Released**: 2023
 **Organization**: Unitree Robotics (China)
-**Price**: ~$90,000 (vs. $1M+ for Atlas-class platforms)
+**Price**: ~`90,000 (vs. `1M+ for Atlas-class platforms)
 
 #### Technical Specifications
 
@@ -440,7 +439,7 @@ Sanctuary focuses on **human-robot collaboration in service industries**—retai
 | **DOF** | 28 | 40+ | 40+ | 25 | 40+ |
 | **Walking Speed** | 1.5 m/s | 0.5-0.8 m/s | 0.5 m/s | 1.5 m/s | 0.5 m/s |
 | **Runtime** | 2h | 8h (goal) | 5h | 2h | Unknown |
-| **Est. Cost** | $1M+ | $20-50K (target) | Unknown (RaaS) | $90K | Unknown (RaaS) |
+| **Est. Cost** | `1M+ | `20-50K (target) | Unknown (RaaS) | $90K | Unknown (RaaS) |
 | **Autonomy** | Scripted behaviors | Learned policies | VLA hybrid | Open platform | Cognitive AI |
 | **Availability** | Not for sale | Pre-production | Pilot only | Available | Pilot only |
 | **Hands** | Simple grippers | 11 DOF dexterous | Dexterous | Simple grippers | 10 DOF dexterous |
@@ -460,9 +459,9 @@ Sanctuary focuses on **human-robot collaboration in service industries**—retai
 
 - ✅ **Autonomy levels vary widely**: Current humanoids operate at shared autonomy (human provides high-level goals, robot executes low-level control). Full autonomy in unstructured environments remains an open research problem.
 
-- ✅ **Vision-based perception is industry trend**: Eliminating LIDAR ($1K-$10K) reduces cost but increases computational requirements and sim-to-real challenges. Tesla and Figure AI lead this approach, leveraging automotive and datacenter infrastructure.
+- ✅ **Vision-based perception is industry trend**: Eliminating LIDAR (`1K-`10K) reduces cost but increases computational requirements and sim-to-real challenges. Tesla and Figure AI lead this approach, leveraging automotive and datacenter infrastructure.
 
-- ✅ **Economic viability is primary barrier to deployment**: Hardware cost must drop below $50K and operating cost below human labor ($20-30/hr) for mass adoption. Only achieved through manufacturing scale (Tesla's auto production expertise) or RaaS business models (Figure AI, Sanctuary).
+- ✅ **Economic viability is primary barrier to deployment**: Hardware cost must drop below `50K and operating cost below human labor (`20-30/hr) for mass adoption. Only achieved through manufacturing scale (Tesla's auto production expertise) or RaaS business models (Figure AI, Sanctuary).
 
 - ✅ **Dexterous hands are the next frontier**: Current bottleneck is fine manipulation (inserting connectors, threading screws). Platforms with 10+ DOF hands (Optimus, Figure, Sanctuary) demonstrate superior task versatility.
 
@@ -505,17 +504,17 @@ Test your understanding with these questions:
    **Atlas (LIDAR + Stereo Cameras)**:
    - LIDAR provides accurate 3D geometry (±1 cm) independent of lighting conditions
    - Stereo cameras add visual semantics (colors, textures)
-   - **Cost**: LIDAR adds $1,000-$10,000 per unit
+   - **Cost**: LIDAR adds `1,000-`10,000 per unit
    - **Use Case**: Research platform where accuracy matters more than cost
 
    **Optimus (Vision-Only)**:
    - Neural networks estimate depth from monocular/stereo cameras (±5-10 cm accuracy)
    - Leverages Tesla's automotive dataset (billions of images) for training
-   - **Cost**: Cameras are $10-$100, massive cost savings
+   - **Cost**: Cameras are `10-`100, massive cost savings
    - **Challenge**: Requires heavy neural network computation, fails in poor lighting or textureless scenes
 
    **Why Tesla Eliminated LIDAR**:
-   1. **Cost**: LIDAR prevents hitting $20K-$50K target price at scale
+   1. **Cost**: LIDAR prevents hitting `20K-`50K target price at scale
    2. **Transfer Learning**: Tesla's automotive vision stack (trained on 1M+ cars) directly applies to Optimus
    3. **Scalability**: Camera supply chain is mature (automotive industry), LIDAR is specialty manufacturing
    4. **Philosophy**: Elon Musk's view: "Humans navigate with vision alone; robots should too"
@@ -529,7 +528,7 @@ Test your understanding with these questions:
 
    **RaaS Advantages**:
 
-   1. **Lower Customer Barrier**: Customers pay $20-30/hr of operation instead of $100K+ upfront capital—easier to justify to CFO (operating expense vs. capital expense)
+   1. **Lower Customer Barrier**: Customers pay `20-30/hr of operation instead of `100K+ upfront capital—easier to justify to CFO (operating expense vs. capital expense)
 
    2. **Continuous Improvement**: Figure AI retains ownership and can remotely update software, improving performance over time. Customer benefits from improvements without repurchasing hardware
 
@@ -552,7 +551,7 @@ Test your understanding with these questions:
    **Comparison**: This mirrors SaaS business models in software—cloud services (subscription) vs. perpetual licenses (one-time purchase). RaaS makes sense when technology is rapidly improving and customers value risk reduction.
    </details>
 
-4. **Unitree H1 costs $90K while Atlas costs $1M+. What capabilities does Atlas have that justify 10× higher cost?**
+4. **Unitree H1 costs `90K while Atlas costs `1M+. What capabilities does Atlas have that justify 10× higher cost?**
    <details>
    <summary>Show Answer</summary>
 

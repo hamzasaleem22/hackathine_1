@@ -41,14 +41,14 @@ After completing this chapter, you will be able to:
 
 ### 4.1 LIDAR: 3D Geometry from Laser Ranging
 
-**LIDAR** (Light Detection and Ranging) measures distance by emitting laser pulses and timing their reflection from surfaces. The result is a **point cloud**—a set of 3D points $(x, y, z)$ representing surfaces in the environment.
+**LIDAR** (Light Detection and Ranging) measures distance by emitting laser pulses and timing their reflection from surfaces. The result is a **point cloud**—a set of 3D points `(x, y, z)` representing surfaces in the environment.
 
 #### 4.1.1 Operating Principle
 
 **Time-of-Flight Measurement**:
 1. Laser emitter sends short pulse (1-10 ns duration)
 2. Pulse travels to surface, reflects back
-3. Detector measures round-trip time $t$
+3. Detector measures round-trip time `t`
 4. Distance computed: d = ct/2 where c = 3 × 10<sup>8</sup> m/s (speed of light)
 
 ```
@@ -92,7 +92,7 @@ graph TD
 
 #### 4.1.3 Point Cloud Representation
 
-A point cloud is a set of $N$ 3D points:
+A point cloud is a set of `N` 3D points:
 
 $$
 \mathcal{P} = \{(x_i, y_i, z_i) \mid i = 1, ..., N\}
@@ -102,11 +102,11 @@ Each point may also carry **intensity** (reflectivity of surface) and **label** 
 
 **Coordinate Frame**: Points are expressed relative to LIDAR sensor frame. Transformation to robot body frame or world frame requires:
 
-$$
-\mathbf{p}_{\text{world}} = \mathbf{R}_{\text{sensor}}^{\text{world}} \mathbf{p}_{\text{sensor}} + \mathbf{t}_{\text{sensor}}^{\text{world}}
-$$
+```
+p_world = R_sensor_to_world × p_sensor + t_sensor_to_world
+```
 
-where $\mathbf{R}$ is rotation matrix (3×3) and $\mathbf{t}$ is translation vector (3×1).
+where R is rotation matrix (3×3) and t is translation vector (3×1).
 
 *Equation 4.2: Coordinate transformation for point clouds*
 
@@ -117,7 +117,7 @@ where $\mathbf{R}$ is rotation matrix (3×3) and $\mathbf{t}$ is translation vec
 | **Accuracy** | Excellent (±1-3 cm) |
 | **Range** | Long (10-100 m) |
 | **Lighting** | Independent (active sensing) |
-| **Cost** | High ($1,000-$10,000+) |
+| **Cost** | High (`1,000-`10,000+) |
 | **Resolution** | Sparse (1-2M points/sec typical) |
 | **Materials** | Fails on transparent/reflective surfaces (glass, mirrors) |
 | **Weather** | Degrades in rain, fog, snow (scattering) |
@@ -129,15 +129,15 @@ where $\mathbf{R}$ is rotation matrix (3×3) and $\mathbf{t}$ is translation vec
 #### 4.2.1 Depth Sensing Technologies
 
 **Stereo Vision** (e.g., Intel RealSense D435):
-- Two cameras separated by baseline $b$ (e.g., 50 mm)
+- Two cameras separated by baseline `b` (e.g., 50 mm)
 - Match corresponding pixels in left and right images
-- Compute depth from disparity $d$:
+- Compute depth from disparity `d`:
 
 $$
 z = \frac{fb}{d}
 $$
 
-where $f$ is focal length, $b$ is baseline, $d$ is pixel disparity (difference in x-coordinate between matched pixels).
+where `f` is focal length, `b` is baseline, `d` is pixel disparity (difference in x-coordinate between matched pixels).
 
 *Equation 4.3: Stereo depth from disparity*
 
@@ -149,13 +149,13 @@ where $f$ is focal length, $b$ is baseline, $d$ is pixel disparity (difference i
 **Time-of-Flight (ToF)** (e.g., Microsoft Kinect v2, Photoneo):
 - Similar to LIDAR but uses modulated light (e.g., 20 MHz sine wave)
 - Measure phase shift of reflected light
-- Depth: $z = \frac{c \phi}{4\pi f}$ where $\phi$ is phase shift, $f$ is modulation frequency
+- Depth: `z = \frac{c \phi}{4\pi f}` where `\phi` is phase shift, `f` is modulation frequency
 
 *Equation 4.4: Time-of-Flight depth measurement*
 
 #### 4.2.2 Depth Map Representation
 
-RGB-D cameras produce an **aligned depth map**: for each RGB pixel $(u, v)$, there is a corresponding depth value $z(u, v)$.
+RGB-D cameras produce an **aligned depth map**: for each RGB pixel `(u, v)`, there is a corresponding depth value `z(u, v)`.
 
 **Conversion to 3D Point**:
 
@@ -163,7 +163,7 @@ $$
 \begin{bmatrix} x \\ y \\ z \end{bmatrix} = z \begin{bmatrix} (u - c_x) / f_x \\ (v - c_y) / f_y \\ 1 \end{bmatrix}
 $$
 
-where $(c_x, c_y)$ is principal point (image center) and $(f_x, f_y)$ are focal lengths in pixels.
+where `(c_x, c_y)` is principal point (image center) and `(f_x, f_y)` are focal lengths in pixels.
 
 *Equation 4.5: 3D back-projection from RGB-D pixel*
 
@@ -174,7 +174,7 @@ where $(c_x, c_y)$ is principal point (image center) and $(f_x, f_y)$ are focal 
 | **Accuracy** | Moderate (±1-5 cm at 1-3 m range) |
 | **Range** | Short (0.5-10 m depending on technology) |
 | **Lighting** | Stereo: Needs texture; ToF/Structured: Independent |
-| **Cost** | Low ($50-$500) |
+| **Cost** | Low (`50-`500) |
 | **Resolution** | Dense (640×480 to 1920×1080 pixels) |
 | **Semantic Info** | Yes (color provides object recognition cues) |
 | **Compute** | Stereo: High (matching); ToF: Low |
@@ -190,17 +190,17 @@ where $(c_x, c_y)$ is principal point (image center) and $(f_x, f_y)$ are focal 
 
 #### 4.3.1 Sensor Components
 
-**3-Axis Gyroscope**: Measures angular velocity $\boldsymbol{\omega} = (\omega_x, \omega_y, \omega_z)$ in rad/s around each axis.
+**3-Axis Gyroscope**: Measures angular velocity `\boldsymbol{\omega} = (\omega_x, \omega_y, \omega_z)` in rad/s around each axis.
 
-**3-Axis Accelerometer**: Measures linear acceleration $\mathbf{a} = (a_x, a_y, a_z)$ in m/s². Includes both:
+**3-Axis Accelerometer**: Measures linear acceleration `\mathbf{a} = (a_x, a_y, a_z)` in m/s². Includes both:
 - **Dynamic acceleration** (robot motion)
-- **Gravitational acceleration** ($-9.81$ m/s² in Earth frame)
+- **Gravitational acceleration** (`-9.81` m/s² in Earth frame)
 
 **3-Axis Magnetometer** (optional): Measures magnetic field direction—provides absolute heading (compass).
 
 #### 4.3.2 Orientation Estimation
 
-**Goal**: Estimate robot orientation $\mathbf{q}$ (as quaternion) from gyroscope and accelerometer readings.
+**Goal**: Estimate robot orientation `\mathbf{q}` (as quaternion) from gyroscope and accelerometer readings.
 
 **Complementary Filter** (simple, real-time):
 
@@ -210,27 +210,27 @@ where $(c_x, c_y)$ is principal point (image center) and $(f_x, f_y)$ are focal 
    $$
 
 2. **Accelerometer Tilt** (low-frequency, corrects drift):
-   - Assumes $\mathbf{a} \approx \mathbf{g}$ (gravity) when robot is stationary
+   - Assumes `\mathbf{a} \approx \mathbf{g}` (gravity) when robot is stationary
    - Compute orientation from gravity direction
 
 3. **Fusion**:
    $$
    \mathbf{q}(t+\Delta t) = \alpha \mathbf{q}_{\text{gyro}} + (1-\alpha) \mathbf{q}_{\text{accel}}
    $$
-   where $\alpha = 0.95-0.99$ (high-pass gyro, low-pass accel).
+   where `\alpha = 0.95-0.99` (high-pass gyro, low-pass accel).
 
 *Equation 4.6: Complementary filter for orientation estimation*
 
 **Extended Kalman Filter (EKF)** (more accurate, handles sensor noise models):
-- State: $\mathbf{x} = [\mathbf{q}, \boldsymbol{\omega}, \mathbf{b}_{\omega}]$ (orientation, angular velocity, gyro bias)
+- State: `\mathbf{x} = [\mathbf{q}, \boldsymbol{\omega}, \mathbf{b}_{\omega}]` (orientation, angular velocity, gyro bias)
 - Prediction: Integrate gyroscope
 - Update: Correct with accelerometer + magnetometer
 
 #### 4.3.3 Challenges
 
-**Gyroscope Drift**: Integration of $\boldsymbol{\omega}$ accumulates errors over time → orientation drifts (1-10°/minute for consumer IMUs)
+**Gyroscope Drift**: Integration of `\boldsymbol{\omega}` accumulates errors over time → orientation drifts (1-10°/minute for consumer IMUs)
 
-**Accelerometer Noise**: During dynamic motion, $\mathbf{a} \neq \mathbf{g}$ → cannot use accelerometer for tilt correction
+**Accelerometer Noise**: During dynamic motion, `\mathbf{a} \neq \mathbf{g}` → cannot use accelerometer for tilt correction
 
 **Magnetometer Distortion**: Indoor magnetic fields from electronics distort compass readings
 
@@ -244,13 +244,13 @@ where $(c_x, c_y)$ is principal point (image center) and $(f_x, f_y)$ are focal 
 
 **Resistive Force Sensors** (FSRs):
 - Resistance decreases under applied pressure
-- Simple, cheap ($1-$10 per sensor)
+- Simple, cheap (`1-`10 per sensor)
 - Low resolution, hysteresis (non-linear)
 
 **Capacitive Sensors**:
 - Capacitance changes with deformation of dielectric
 - Higher resolution than FSRs
-- More expensive ($50-$200)
+- More expensive (`50-`200)
 
 **Optical Tactile Sensors** (e.g., GelSight):
 - Camera observes deformation of gel surface in contact
@@ -582,21 +582,21 @@ while True:
 
 #### Extended Kalman Filter (EKF)
 
-**State**: $\mathbf{x} = [x, y, z, q_w, q_x, q_y, q_z, v_x, v_y, v_z]$ (position, orientation quaternion, velocity)
+**State**: `\mathbf{x} = [x, y, z, q_w, q_x, q_y, q_z, v_x, v_y, v_z]` (position, orientation quaternion, velocity)
 
 **Prediction** (IMU at 1 kHz):
 $$
 \mathbf{x}_{k+1} = f(\mathbf{x}_k, \mathbf{u}_k) + \mathbf{w}_k
 $$
 
-where $\mathbf{u}_k$ is IMU measurement (accel, gyro) and $\mathbf{w}_k \sim \mathcal{N}(0, \mathbf{Q})$ is process noise.
+where `\mathbf{u}_k` is IMU measurement (accel, gyro) and `\mathbf{w}_k \sim \mathcal{N}(0, \mathbf{Q})` is process noise.
 
 **Update** (Visual odometry at 30 Hz):
 $$
 \mathbf{z}_k = h(\mathbf{x}_k) + \mathbf{v}_k
 $$
 
-where $\mathbf{z}_k$ is pose from vision and $\mathbf{v}_k \sim \mathcal{N}(0, \mathbf{R})$ is measurement noise.
+where `\mathbf{z}_k` is pose from vision and `\mathbf{v}_k \sim \mathcal{N}(0, \mathbf{R})` is measurement noise.
 
 *Equation 4.7: EKF prediction and update steps*
 
@@ -637,13 +637,13 @@ sequenceDiagram
 
 ### Key Takeaways
 
-- ✅ **LIDAR provides accurate long-range 3D geometry**: Time-of-flight laser ranging achieves ±1-3 cm accuracy at 10-100 m, but high cost ($1K-$10K) and sparse data (1-2M points/sec) limit applications. Excellent for outdoor navigation and obstacle avoidance.
+- ✅ **LIDAR provides accurate long-range 3D geometry**: Time-of-flight laser ranging achieves ±1-3 cm accuracy at 10-100 m, but high cost (`1K-`10K) and sparse data (1-2M points/sec) limit applications. Excellent for outdoor navigation and obstacle avoidance.
 
-- ✅ **RGB-D cameras combine visual semantics with depth**: Stereo/ToF/structured light technologies provide dense depth maps (640×480+ pixels) at low cost ($50-$500), but limited range (0.5-10 m) and accuracy (±1-5 cm). Ideal for indoor manipulation and human interaction.
+- ✅ **RGB-D cameras combine visual semantics with depth**: Stereo/ToF/structured light technologies provide dense depth maps (640×480+ pixels) at low cost (`50-`500), but limited range (0.5-10 m) and accuracy (±1-5 cm). Ideal for indoor manipulation and human interaction.
 
 - ✅ **IMUs enable proprioceptive motion sensing**: Gyroscopes and accelerometers measure angular velocity and linear acceleration at high rates (100-1000 Hz), critical for balance control. However, gyro drift (1-10°/min) requires fusion with external sensors (cameras, LIDAR) for long-term accuracy.
 
-- ✅ **Tactile sensors enable safe manipulation**: Force/pressure sensors detect contact, slip, and texture. Essential for dexterous grasping and human-robot collaboration. Technologies range from simple FSRs ($1-$10) to high-resolution optical sensors ($1,000+).
+- ✅ **Tactile sensors enable safe manipulation**: Force/pressure sensors detect contact, slip, and texture. Essential for dexterous grasping and human-robot collaboration. Technologies range from simple FSRs (`1-`10) to high-resolution optical sensors ($1,000+).
 
 - ✅ **Sensor fusion combines complementary strengths**: Extended Kalman Filters (EKF) or particle filters fuse high-rate inertial data (IMU) with accurate but low-rate external measurements (vision, LIDAR), achieving position accuracy ±5-10 cm and orientation ±1-2°.
 
@@ -675,7 +675,7 @@ Test your understanding with these questions:
    - **Accuracy**: LIDAR provides ±1-3 cm accuracy; RGB-D cameras ±1-5 cm (degrades at longer ranges)
 
    **Trade-offs**:
-   - **Cost**: LIDAR costs $1,000-$10,000; RGB-D cameras cost $50-$500. For budget-constrained projects, may use RGB-D with external illumination (IR LEDs for night)
+   - **Cost**: LIDAR costs `1,000-`10,000; RGB-D cameras cost `50-`500. For budget-constrained projects, may use RGB-D with external illumination (IR LEDs for night)
    - **Semantic Information**: RGB cameras provide color/texture for object recognition ("stop sign," "person"). LIDAR gives geometry only. Solution: Use both (LIDAR for navigation, camera for semantics)
    - **Weather**: LIDAR performance degrades in rain/fog due to scattering. RGB cameras also affected. No perfect solution—both sensors struggle in adverse weather
 
@@ -688,14 +688,14 @@ Test your understanding with these questions:
 
    **Why IMU Drifts**:
 
-   **Gyroscope Integration**: Orientation is computed by integrating angular velocity $\boldsymbol{\omega}$:
+   **Gyroscope Integration**: Orientation is computed by integrating angular velocity `\boldsymbol{\omega}`:
    $$
    \mathbf{q}(t) = \mathbf{q}(0) \otimes \int_0^t \boldsymbol{\omega}(\tau) d\tau
    $$
 
    - Gyroscope measurements have **bias** (constant offset) and **noise** (random fluctuations)
    - Integration of bias accumulates linearly: after 60 seconds with 0.1°/s bias → 6° error
-   - Integration of noise accumulates as random walk: $\sigma_{\theta}(t) \propto \sqrt{t}$
+   - Integration of noise accumulates as random walk: `\sigma_{\theta}(t) \propto \sqrt{t}`
 
    **Accelerometer Drift**: Position requires double integration of acceleration:
    $$
@@ -732,7 +732,7 @@ Test your understanding with these questions:
    2. **RGB-D Camera (wrist-mounted on each arm)**:
       - **Purpose**: Grasp pose estimation for boxes (identify graspable surfaces)
       - **Specs**: 640×480 depth, 30 Hz, 0.5-3 m range (RealSense D435)
-      - **Cost**: $200 × 2 = $400
+      - **Cost**: `200 × 2 = `400
       - **Why**: Dense depth + RGB enables object segmentation and grasp planning
 
    3. **IMU (torso-mounted)**:
@@ -744,13 +744,13 @@ Test your understanding with these questions:
    4. **Force/Torque Sensors (wrist-mounted)**:
       - **Purpose**: Detect successful grasp, measure payload weight
       - **Specs**: 6-axis F/T sensor, 1000 Hz, ±0.1 N resolution
-      - **Cost**: $1,000 × 2 = $2,000
+      - **Cost**: `1,000 × 2 = `2,000
       - **Why**: Verify box is securely grasped before lifting (safety)
 
    5. **Tactile Sensors (gripper fingers)**:
       - **Purpose**: Slip detection during transport
       - **Specs**: 16-element FSR array per finger, 100 Hz
-      - **Cost**: $100 × 2 = $200
+      - **Cost**: `100 × 2 = `200
       - **Why**: Detect if box is slipping → adjust grip force
 
    **Total Cost**: ~$3,650 (excluding compute hardware)
@@ -773,31 +773,31 @@ Test your understanding with these questions:
    z = \frac{fb}{d}
    $$
 
-   where $f$ = focal length, $b$ = baseline (camera separation), $d$ = disparity (pixel difference).
+   where `f` = focal length, `b` = baseline (camera separation), `d` = disparity (pixel difference).
 
-   **Uncertainty Analysis**: If disparity has uncertainty $\sigma_d$ (typically ±0.5 to ±1 pixel due to matching errors), depth uncertainty is:
+   **Uncertainty Analysis**: If disparity has uncertainty `\sigma_d` (typically ±0.5 to ±1 pixel due to matching errors), depth uncertainty is:
    $$
    \sigma_z = \frac{\partial z}{\partial d} \sigma_d = \frac{fb}{d^2} \sigma_d = \frac{z^2}{fb} \sigma_d
    $$
 
-   **Key Insight**: Depth error grows **quadratically** with distance $z^2$.
+   **Key Insight**: Depth error grows **quadratically** with distance `z^2`.
 
    *Equation 4.8: Stereo depth uncertainty (quadratic with distance)*
 
-   **Numerical Example** (RealSense D435: $f=$ 525 px, $b=$ 50 mm):
-   - At 1 m: $\sigma_z = \frac{1^2}{525 \times 0.05} \times 0.5 \approx 0.019$ m = 1.9 cm
-   - At 3 m: $\sigma_z = \frac{3^2}{525 \times 0.05} \times 0.5 \approx 0.17$ m = 17 cm
-   - At 5 m: $\sigma_z = \frac{5^2}{525 \times 0.05} \times 0.5 \approx 0.48$ m = 48 cm
+   **Numerical Example** (RealSense D435: `f=` 525 px, `b=` 50 mm):
+   - At 1 m: `\sigma_z = \frac{1^2}{525 \times 0.05} \times 0.5 \approx 0.019` m = 1.9 cm
+   - At 3 m: `\sigma_z = \frac{3^2}{525 \times 0.05} \times 0.5 \approx 0.17` m = 17 cm
+   - At 5 m: `\sigma_z = \frac{5^2}{525 \times 0.05} \times 0.5 \approx 0.48` m = 48 cm
 
    **Why This Happens**:
-   - Disparity $d$ decreases with distance (farther objects → smaller pixel difference)
-   - Fixed pixel matching error $\sigma_d$ becomes larger fraction of total disparity
-   - Small errors in $d$ cause large errors in $z$ via the $z^2/fb$ factor
+   - Disparity `d` decreases with distance (farther objects → smaller pixel difference)
+   - Fixed pixel matching error `\sigma_d` becomes larger fraction of total disparity
+   - Small errors in `d` cause large errors in `z` via the `z^2/fb` factor
 
    **Practical Implication**: Stereo cameras work well at 0.5-3 m range. Beyond 5 m, accuracy degrades to unusable levels (±50 cm). This is why long-range perception requires LIDAR or ToF cameras (different principle, not affected by this issue).
    </details>
 
-5. **You implement a complementary filter for IMU orientation with $\alpha = 0.98$ (98% gyro, 2% accel). What happens if you increase $\alpha$ to 0.999? What if you decrease to 0.90?**
+5. **You implement a complementary filter for IMU orientation with `\alpha = 0.98` (98% gyro, 2% accel). What happens if you increase `\alpha` to 0.999? What if you decrease to 0.90?**
    <details>
    <summary>Show Answer</summary>
 
@@ -806,10 +806,10 @@ Test your understanding with these questions:
    \mathbf{q}(t+\Delta t) = \alpha \mathbf{q}_{\text{gyro}} + (1-\alpha) \mathbf{q}_{\text{accel}}
    $$
 
-   - $\alpha$ near 1: Trust gyro more (high-frequency, responsive)
-   - $\alpha$ near 0: Trust accel more (low-frequency, drift correction)
+   - `\alpha` near 1: Trust gyro more (high-frequency, responsive)
+   - `\alpha` near 0: Trust accel more (low-frequency, drift correction)
 
-   **Scenario 1: Increase $\alpha$ to 0.999**
+   **Scenario 1: Increase `\alpha` to 0.999**
 
    **Effect**:
    - **Pros**: Very responsive to rapid rotations (99.9% of orientation comes from gyro integration)
@@ -819,17 +819,17 @@ Test your understanding with these questions:
 
    **Failure Mode**: After 10 minutes of operation, robot thinks it's tilted 10-50° when actually upright → balance controller fails
 
-   **Scenario 2: Decrease $\alpha$ to 0.90**
+   **Scenario 2: Decrease `\alpha` to 0.90**
 
    **Effect**:
    - **Pros**: Strong drift correction (10% weight on accel each update) → orientation stays within ±1° of true
-   - **Cons**: Sluggish response to actual motion; during dynamic maneuvers (jumping, fast turns), accelerometer measures $\mathbf{a} \neq \mathbf{g}$ → filter incorrectly interprets as tilt
+   - **Cons**: Sluggish response to actual motion; during dynamic maneuvers (jumping, fast turns), accelerometer measures `\mathbf{a} \neq \mathbf{g}` → filter incorrectly interprets as tilt
 
    **When to use**: Slow-moving or stationary robots where gyro drift is primary concern and dynamic accelerations are minimal
 
    **Failure Mode**: During a jump, accelerometer measures large upward acceleration → filter thinks robot is tilted back → outputs incorrect orientation during flight phase
 
-   **Optimal Value** ($\alpha = 0.95-0.98$):
+   **Optimal Value** (`\alpha = 0.95-0.98`):
    - Balances responsiveness (gyro) with drift correction (accel)
    - Gyro dominates (95-98%), accel prevents long-term drift (2-5%)
    - Assumes accelerometer measures mostly gravity when averaged over time (true for walking/jogging, not sprinting/jumping)

@@ -50,16 +50,16 @@ $$
 $$
 
 where:
-- $\mathcal{S}$: Set of possible world states (e.g., robot pose, object positions, environmental conditions)
-- $\mathcal{A}$: Set of actions the robot can execute (e.g., joint torque commands, gripper open/close)
-- $\mathcal{T}: \mathcal{S} \times \mathcal{A} \times \mathcal{S} \rightarrow [0, 1]$: Transition probability function (how actions affect state)
-- $\mathcal{R}: \mathcal{S} \times \mathcal{A} \rightarrow \mathbb{R}$: Reward function (task objectives)
-- $\mathcal{O}$: Set of possible observations (sensor measurements)
-- $\mathcal{Z}: \mathcal{S} \times \mathcal{O} \rightarrow [0, 1]$: Observation probability function (sensor noise model)
+- `\mathcal{S}`: Set of possible world states (e.g., robot pose, object positions, environmental conditions)
+- `\mathcal{A}`: Set of actions the robot can execute (e.g., joint torque commands, gripper open/close)
+- `\mathcal{T}: \mathcal{S} \times \mathcal{A} \times \mathcal{S} \rightarrow [0, 1]`: Transition probability function (how actions affect state)
+- `\mathcal{R}: \mathcal{S} \times \mathcal{A} \rightarrow \mathbb{R}`: Reward function (task objectives)
+- `\mathcal{O}`: Set of possible observations (sensor measurements)
+- `\mathcal{Z}: \mathcal{S} \times \mathcal{O} \rightarrow [0, 1]`: Observation probability function (sensor noise model)
 
 *Equation 1.1: POMDP formulation of Physical AI systems*
 
-This formulation highlights a critical difference from traditional AI: the agent cannot directly observe the true state $s \in \mathcal{S}$ but must infer it from noisy observations $o \in \mathcal{O}$. This necessitates belief state tracking, often implemented through Bayesian filtering (Kalman filters, particle filters) or modern deep learning approaches.
+This formulation highlights a critical difference from traditional AI: the agent cannot directly observe the true state `s \in \mathcal{S}` but must infer it from noisy observations `o \in \mathcal{O}`. This necessitates belief state tracking, often implemented through Bayesian filtering (Kalman filters, particle filters) or modern deep learning approaches.
 
 ### 1.2 The Embodiment Hypothesis
 
@@ -104,11 +104,11 @@ Physical AI systems operate under strict temporal constraints imposed by the dyn
 
 **Computational Budget Analysis**: Consider a humanoid robot with 30 degrees of freedom (DOF) running a model predictive controller (MPC) at 100 Hz. The MPC must solve a constrained optimization problem with 30 state variables, 30 control inputs, and a 50-step prediction horizon within 10 ms (the control period). This real-time constraint fundamentally limits the complexity of algorithms that can be deployed:
 
-$$
-t_{compute} + t_{communication} \lt T_{control} = \frac{1}{f_{control}}
-$$
+```
+t_compute + t_communication < T_control = 1 / f_control
+```
 
-where $f_{\text{control}} = 100$ Hz implies $T_{\text{control}} = 10$ ms.
+where f_control = 100 Hz implies T_control = 10 ms.
 
 *Equation 1.2: Real-time constraint for control systems*
 
@@ -119,9 +119,9 @@ Violating this constraint leads to delayed or missed control updates, which can 
 A defining characteristic of Physical AI is **sensorimotor coupling**—the tight integration of perception and action in a closed-loop feedback system. Unlike open-loop systems that execute pre-planned actions without feedback, Physical AI systems continuously sense their environment and adapt their actions in response.
 
 **Feedback Control Example**: A humanoid robot walking on uneven terrain uses IMU (inertial measurement unit) data to detect unexpected tilts:
-1. **Sense**: IMU measures angular velocity $\omega$ and linear acceleration $a$ at 1000 Hz
-2. **Estimate**: Complementary filter fuses IMU with joint encoder data to estimate body orientation $\theta$ and position $p$
-3. **Control**: If $|\theta - \theta_{\text{desired}}| > \epsilon$, adjust foot placement or generate corrective torques
+1. **Sense**: IMU measures angular velocity `\omega` and linear acceleration `a` at 1000 Hz
+2. **Estimate**: Complementary filter fuses IMU with joint encoder data to estimate body orientation `\theta` and position `p`
+3. **Control**: If `|\theta - \theta_{\text{desired}}| > \epsilon`, adjust foot placement or generate corrective torques
 4. **Act**: Send motor commands to actuators within 10 ms
 5. **Repeat**: Close the loop—measure the effect of actions and iterate
 
@@ -209,7 +209,7 @@ graph TB
 *Figure 1.3: Multi-robot coordination architecture in warehouse automation*
 
 **Key Physical AI Challenges**:
-1. **Localization**: Each robot must estimate its 2D pose $(x, y, \theta)$ using wheel odometry and overhead fiducial markers, fusing measurements with a Kalman filter to handle wheel slip and sensor noise.
+1. **Localization**: Each robot must estimate its 2D pose `(x, y, \theta)` using wheel odometry and overhead fiducial markers, fusing measurements with a Kalman filter to handle wheel slip and sensor noise.
 2. **Path Planning**: A* or D* algorithms compute collision-free paths in a dynamic occupancy grid updated at 10 Hz as other robots move.
 3. **Real-Time Constraints**: Path execution must complete within time windows (e.g., 30 seconds to reach pod) to meet throughput targets of 300+ picks per hour per worker.
 4. **Safety**: Robots must detect and respond to human workers entering their path within 200 ms to avoid collisions (ISO 13849 safety standard compliance).
@@ -247,7 +247,7 @@ $$
 \mathbf{p}_{\text{ZMP}} = \frac{\sum_{i=1}^{n} m_i (\mathbf{p}_i - \mathbf{g}/||\mathbf{g}||) \times (\ddot{\mathbf{p}}_i - \mathbf{g})}{||\sum_{i=1}^{n} m_i (\ddot{\mathbf{p}}_i - \mathbf{g})||_z}
 $$
 
-where $m_i$ are link masses, $\mathbf{p}_i$ are link positions, $\ddot{\mathbf{p}}_i$ are link accelerations, and $\mathbf{g}$ is gravity.
+where `m_i` are link masses, `\mathbf{p}_i` are link positions, `\ddot{\mathbf{p}}_i` are link accelerations, and `\mathbf{g}` is gravity.
 
 *Equation 1.3: Zero Moment Point criterion for dynamic stability*
 
@@ -269,7 +269,7 @@ where $m_i$ are link masses, $\mathbf{p}_i$ are link positions, $\ddot{\mathbf{p
 | **Sensing** | LIDAR + stereo cameras + IMU | Cameras (8-12 total) + IMU |
 | **Compute** | Custom real-time computers | Tesla FSD computer (neural network inference) |
 | **Control Strategy** | Model-based optimal control | Neural network policies trained in simulation |
-| **Cost** | ~$1M+ (research platform) | Target <$50K (mass production) |
+| **Cost** | ~`1M+ (research platform) | Target <`50K (mass production) |
 
 **Vision-Based Perception Pipeline**:
 1. **Multi-Camera Input**: 8 cameras (4 in head, 2 in torso, 2 in hands) capture 360° view at 36 Hz
@@ -310,11 +310,11 @@ $$
 \mathbf{F}_i = \mathbf{K}_p (\mathbf{x}_i^d - \mathbf{x}_i) + \mathbf{K}_d (\dot{\mathbf{x}}_i^d - \dot{\mathbf{x}}_i)
 $$
 
-where $\mathbf{F}_i$ is the desired force from arm $i$, $\mathbf{x}_i$ is the current end-effector pose, $\mathbf{x}_i^d$ is the desired pose, and $\mathbf{K}_p, \mathbf{K}_d$ are stiffness and damping matrices.
+where `\mathbf{F}_i` is the desired force from arm `i`, `\mathbf{x}_i` is the current end-effector pose, `\mathbf{x}_i^d` is the desired pose, and `\mathbf{K}_p, \mathbf{K}_d` are stiffness and damping matrices.
 
 *Equation 1.4: Impedance control for compliant manipulation*
 
-By setting low stiffness $\mathbf{K}_p$, the arms become compliant and can adapt to unexpected contact forces—critical when the object's exact geometry or pose is uncertain [7].
+By setting low stiffness `\mathbf{K}_p`, the arms become compliant and can adapt to unexpected contact forces—critical when the object's exact geometry or pose is uncertain [7].
 
 **Real-World Deployment Metrics**:
 - **Task Success Rate**: 85-90% for box picking/placing (industry target: >95% for production deployment)
@@ -328,7 +328,7 @@ By setting low stiffness $\mathbf{K}_p$, the arms become compliant and can adapt
 ### Key Takeaways
 
 - ✅ **Physical AI is distinguished by embodiment, real-time constraints, and uncertainty**: Unlike traditional AI operating in abstract state spaces, Physical AI must interact with the physical world through sensors and actuators under strict temporal deadlines.
-- ✅ **The POMDP framework formalizes Physical AI systems**: State space $\mathcal{S}$, action space $\mathcal{A}$, transition dynamics $\mathcal{T}$, observations $\mathcal{O}$, and belief state tracking are fundamental to reasoning under uncertainty.
+- ✅ **The POMDP framework formalizes Physical AI systems**: State space `\mathcal{S}`, action space `\mathcal{A}`, transition dynamics `\mathcal{T}`, observations `\mathcal{O}`, and belief state tracking are fundamental to reasoning under uncertainty.
 - ✅ **Embodiment shapes intelligence**: The morphology of a robot—its body structure, sensor placement, actuator characteristics—fundamentally influences how it perceives and interacts with the world (morphological computation).
 - ✅ **Real-time control hierarchies organize computation**: High-level planning (1 Hz), mid-level control (10-50 Hz), low-level servo control (100-1000 Hz), and hardware interfaces (1-10 kHz) operate at different time scales to meet temporal constraints.
 - ✅ **Sensorimotor coupling enables robust behavior**: Closed-loop feedback systems continuously sense the environment and adapt actions, providing robustness to disturbances that would be impossible to anticipate in open-loop planning.
@@ -369,10 +369,10 @@ Test your understanding with these questions:
    <details>
    <summary>Show Answer</summary>
 
-   The control period is $T = 1/f = 1/100 = 10$ ms. With perception taking 6 ms and communication taking 1 ms, the remaining budget is:
-   $$t_{\text{control}} < 10 - 6 - 1 = 3 \text{ ms}$$
+   The control period is `T = 1/f = 1/100 = 10` ms. With perception taking 6 ms and communication taking 1 ms, the remaining budget is:
+   $`t_{\text{control}} < 10 - 6 - 1 = 3 \text{ ms}`$
 
-   An 8 ms MPC algorithm would require $6 + 8 + 1 = 15$ ms total, exceeding the 10 ms deadline. This violates the real-time constraint and would cause delayed or dropped control updates, potentially destabilizing the robot. Solutions: (1) reduce control frequency (e.g., 50 Hz gives 20 ms budget), (2) simplify the MPC formulation, (3) use faster hardware (GPU acceleration), or (4) switch to a faster algorithm (e.g., PID control or a pre-trained neural network policy).
+   An 8 ms MPC algorithm would require `6 + 8 + 1 = 15` ms total, exceeding the 10 ms deadline. This violates the real-time constraint and would cause delayed or dropped control updates, potentially destabilizing the robot. Solutions: (1) reduce control frequency (e.g., 50 Hz gives 20 ms budget), (2) simplify the MPC formulation, (3) use faster hardware (GPU acceleration), or (4) switch to a faster algorithm (e.g., PID control or a pre-trained neural network policy).
    </details>
 
 4. **Compare the sensing strategies of Boston Dynamics Atlas (LIDAR + stereo cameras) and Tesla Optimus (vision-only). What are the trade-offs of each approach?**
@@ -381,10 +381,10 @@ Test your understanding with these questions:
 
    **Atlas (LIDAR + Stereo Cameras)**:
    - **Pros**: LIDAR provides accurate 3D geometry directly (±1 cm accuracy), works in varied lighting, real-time obstacle detection
-   - **Cons**: LIDAR is expensive ($1,000-$10,000), adds weight and power consumption, limited angular resolution (sparse point cloud)
+   - **Cons**: LIDAR is expensive (`1,000-`10,000), adds weight and power consumption, limited angular resolution (sparse point cloud)
 
    **Optimus (Vision-Only)**:
-   - **Pros**: Cameras are cheap ($10-$100), lightweight, high resolution, can perceive visual semantics (colors, textures, text)
+   - **Pros**: Cameras are cheap (`10-`100), lightweight, high resolution, can perceive visual semantics (colors, textures, text)
    - **Cons**: Depth estimation from cameras is less accurate than LIDAR (±5-10 cm), fails in poor lighting or textureless scenes, requires heavy neural network computation
 
    **Trade-off**: Atlas prioritizes accuracy and reliability (research/demo platform), while Optimus optimizes for cost and scalability (consumer product). Optimus's vision-only approach leverages Tesla's automotive computer vision expertise but requires robust sim-to-real transfer to handle vision challenges.
