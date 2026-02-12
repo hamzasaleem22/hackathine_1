@@ -3,24 +3,21 @@
 
 <!--
 Sync Impact Report:
-- Version: 1.1.0 → 1.2.0
-- Amendment Date: 2026-02-08
-- Amendment Type: MAJOR (structural reorganization + universal principles)
+- Version: 1.2.0 → 1.3.0
+- Amendment Date: 2026-02-12
+- Amendment Type: MINOR (enhanced guidance + explicit workflow integration)
 - Changes:
-  ✅ **BREAKING**: Added Section 0: Universal Principles (NEW - foundational layer)
-  ✅ Added Section 0.1: Seven Foundational Principles (apply to ALL work)
-  ✅ Added Section 0.2: Universal Decision Framework (standardized thresholds)
-  ✅ Added Section 0.3: Hierarchy of Authority (conflict resolution rules)
-  ✅ **BREAKING**: Consolidated testing standards (removed duplication from 3.1.VI and 5.3)
-  ✅ Updated Section 8.2: Now AUTHORITATIVE testing source
-  ✅ Added cross-references to principles in all major sections
-  ✅ Fixed decision framework inconsistencies (30min/6h/2day thresholds standardized)
-  ✅ Added Constitution Health Checklist (Section 16)
-  ✅ Elevated implicit principles: Demo Reliability, Single-Threaded Focus, Human as Tool
-- Rationale: Address structural issues identified in comprehensive review
-- Breaking Changes: Section numbering shifted (old Section 1 → Section 1, but new Section 0 added)
-- Migration Path: All references to principles now point to Section 0
-- Follow-up TODOs: Priority 2 fixes (consolidate risks, merge quality gates) in v1.3.0
+  ✅ Enhanced Section 0.2: Added timeout hints for complex tasks (CORS, RAG tuning, DB migrations)
+  ✅ Enhanced Section 0.5: NEW - RAG-Specific Decision Framework
+  ✅ Enhanced Section 5.1: Added explicit PHR reminders to development cycle
+  ✅ Enhanced Section 5.1.4: Added human escalation checkpoints to daily workflow
+  ✅ Enhanced Section 11.2: Added RAG chatbot-specific ADR examples
+  ✅ Enhanced Section 12.3: Clarified PHR automation and agent-native flow
+  ✅ Updated Table of Contents: Added Section 0.5
+- Rationale: Address gaps identified in RAG chatbot tasks.md alignment analysis
+- Breaking Changes: None (additive only)
+- Migration Path: No changes required to existing artifacts
+- Source: Cross-artifact alignment analysis (tasks.md vs spec.md vs plan.md vs constitution)
 -->
 
 ---
@@ -99,6 +96,8 @@ Sync Impact Report:
 
 **Rationale**: Solo developer = no team to ask "why did we do it this way?" Documentation is future-you's only teammate.
 
+**✨ NEW - PHR Automation**: PHRs should be created automatically after completing work. See Section 12.3 for agent-native flow.
+
 ---
 
 #### VI. Constraint-Driven Development (Constraints as Features)
@@ -128,6 +127,8 @@ Sync Impact Report:
 
 **Rationale**: AI should not make arbitrary decisions on ambiguous problems. Use human judgment as a tool.
 
+**✨ NEW - Workflow Integration**: See Section 5.1.4 for daily escalation checkpoints.
+
 ---
 
 ### 0.2 Universal Decision Framework
@@ -136,15 +137,23 @@ This table standardizes decision thresholds across the entire project. If a sect
 
 | Decision Type | Time Limit | Kill Switch Trigger | Authority | Notes |
 |---------------|-----------|---------------------|-----------|-------|
-| **Trivial Tool Integration** | 30 min debugging | Not working after 30 min | This constitution (Section 0.2) | Example: Linter setup, formatter config |
-| **Core Feature Integration** | 6 hours debugging | Not working after 6 hours + ADR documenting failure | Section 3.2.1, 14.2 | Example: Better-Auth, OpenAI ChatKit |
+| **Trivial Tool Integration** | 30 min debugging | Not working after 30 min | This constitution (Section 0.2) | Example: Linter setup, formatter config, **CORS preflight testing** |
+| **Core Feature Integration** | 6 hours debugging | Not working after 6 hours + ADR documenting failure | Section 3.2.1, 14.2 | Example: Better-Auth, OpenAI ChatKit, **RAG retrieval tuning** |
 | **Content Quality** | No time limit | >5 factual errors after validation | Section 4.1.5 | Quality never compromised for speed |
 | **Schedule Slip** | 2 consecutive days | Activate contingency plan | Section 14.3 | Traffic light goes Red → escalate |
 | **Budget Overrun** | $15 spent (out of $20) | Disable feature causing overrun | Section 7.2 | $18 = hard stop, $15 = warning |
 | **Test Failures** | 3 consecutive failing builds | Roll back to last green build | Section 8.2 | Never ship broken builds |
 | **Performance Degradation** | Response time >5s p95 | Optimize or disable feature | Section 8.3 | User experience non-negotiable |
+| **✨ Database Migrations** | 2 hours setup | Manual SQL fallback if Alembic fails | Section 0.5 | Use direct schema.sql application |
+| **✨ Embedding Quality** | 6 hours tuning | Accept default if tuning ineffective | Section 0.5 | RAG-specific: chunk size, top-k, threshold |
 
 **Conflict Resolution**: If this table conflicts with section-specific rules, this table wins UNLESS the section has an explicit ADR justifying deviation.
+
+**✨ NEW - Timeout Hints for Complex Tasks**:
+- **CORS Debugging** (30min): If preflight fails after 30min, escalate to user or simplify (same-origin deployment)
+- **RAG Prompt Engineering** (6h): If answer quality <80% after 6h tuning, document failure in ADR and reduce scope
+- **Database Migration Setup** (2h): If Alembic setup exceeds 2h, fallback to manual schema.sql execution
+- **Index Validation** (1h): If content indexing fails validation after 1h, reduce chunk count or simplify metadata
 
 ---
 
@@ -157,6 +166,7 @@ When sections of this constitution conflict, apply this precedence order (highes
 │  1. UNIVERSAL PRINCIPLES (Section 0) │ ← NEVER override
 │     - Seven Foundational Principles   │
 │     - Universal Decision Framework    │
+│     - RAG-Specific Framework (NEW)    │
 └─────────────────────────────────────┘
            ↓ overrides ↓
 ┌─────────────────────────────────────┐
@@ -187,7 +197,7 @@ When sections of this constitution conflict, apply this precedence order (highes
 
 **Conflict Resolution Rules**:
 1. **Higher level wins**: If Section 0 conflicts with Section 8, Section 0 wins
-2. **Later version wins**: If v1.2.0 conflicts with v1.1.0, v1.2.0 wins
+2. **Later version wins**: If v1.3.0 conflicts with v1.2.0, v1.3.0 wins
 3. **Explicit ADR wins**: If an ADR explicitly overrides constitution, ADR wins (but must document why)
 4. **All conflicts MUST be documented**: Create ADR explaining resolution + update constitution
 
@@ -218,21 +228,64 @@ When sections of this constitution conflict, apply this precedence order (highes
 
 ---
 
+### 0.5 RAG-Specific Decision Framework ⭐ NEW
+
+*This section provides RAG chatbot-specific guidance for the 001-rag-chatbot feature.*
+
+**Purpose**: RAG systems have unique decision points not covered by general principles. This framework prevents common pitfalls.
+
+#### Content Indexing Decisions
+
+| Decision Point | Threshold | Fallback | Authority |
+|---------------|-----------|----------|-----------|
+| **Chunk Size** | Test 3 values (500/1000/1500 tokens), pick best | Default: 1000 tokens | Section 0.2 (6h limit) |
+| **Indexing Validation** | ≥20 chunks from Module 0, 100% indexed | Reduce content scope | Section 0.2 |
+| **Metadata Extraction** | Navigation URLs for ≥90% chunks | Skip broken links, log failures | Plan.md Phase 1 |
+| **Embedding Batch Size** | 100 chunks/API call (OpenAI rate limit) | Reduce to 50 if rate limited | Plan.md Phase 1 |
+
+#### Retrieval Quality Decisions
+
+| Decision Point | Threshold | Fallback | Authority |
+|---------------|-----------|----------|-----------|
+| **Similarity Threshold** | Test 0.6, 0.7, 0.8; pick highest with <10% zero-result rate | Default: 0.7 | Plan.md Phase 2 |
+| **Top-K Selection** | Test k=3,5,7; pick smallest with >90% citation rate | Default: 5 | Plan.md Phase 2 |
+| **Context Boosting** | 2x for selected text, validate with 5 test cases | Disable if <80% relevance | Plan.md Phase 4 |
+| **Answer Quality** | >80% accuracy (SME evaluation), Cohen's Kappa >0.85 | Reduce claim strength (add disclaimers) | Spec.md SC-006, SC-016 |
+
+#### Production Readiness Decisions
+
+| Decision Point | Threshold | Fallback | Authority |
+|---------------|-----------|----------|-----------|
+| **Response Time** | p95 <5s for 95% of queries | Reduce max_tokens, optimize embeddings | Spec.md SC-001 |
+| **Error Rate** | <2% failed queries (excluding user errors) | Add retry logic, improve error messages | Plan.md Section 14 |
+| **Cache Hit Rate** | >30% (cost savings target) | Increase TTL from 24h to 48h | Plan.md Section 10 |
+| **Load Testing** | 50 concurrent users, <20% response time increase | Accept degradation, add queue | Spec.md SC-007 |
+
+**ADR Requirement**: Any deviation from these thresholds MUST be documented in ADR with rationale (see Section 11.2 for examples).
+
+**Human Escalation Triggers** (Section 0.1.VII):
+- Answer quality <60% after 6h tuning → Ask user to reduce scope or simplify questions
+- Zero-result rate >20% → Ask user to validate content coverage expectations
+- Response time >10s consistently → Ask user to approve increased API costs or reduced quality
+
+---
+
 ## Table of Contents
 
 0. [Universal Principles](#0-universal-principles) ⭐ **START HERE**
+   - 0.5 [RAG-Specific Decision Framework](#05-rag-specific-decision-framework) ⭐ **NEW**
 1. [Executive Summary](#1-executive-summary)
 2. [Project Scope](#2-project-scope)
 3. [Technical Governance](#3-technical-governance)
 4. [Content Governance](#4-content-governance)
-5. [Development Workflow](#5-development-workflow)
+5. [Development Workflow](#5-development-workflow) ⭐ **ENHANCED: PHR + Escalation**
 6. [Risk Management](#6-risk-management)
 7. [Resource Management](#7-resource-management)
 8. [Quality Assurance](#8-quality-assurance) ⭐ **AUTHORITATIVE for Testing**
 9. [Ethical Guidelines](#9-ethical-guidelines)
 10. [Success Metrics](#10-success-metrics)
-11. [Decision Log](#11-decision-log)
-12. [Communication Standards](#12-communication-standards)
+11. [Decision Log](#11-decision-log) ⭐ **ENHANCED: RAG Examples**
+12. [Communication Standards](#12-communication-standards) ⭐ **ENHANCED: PHR Automation**
 13. [Project Milestones](#13-project-milestones)
 14. [Contingency Planning](#14-contingency-planning)
 15. [Handoff & Maintenance](#15-handoff--maintenance)
@@ -243,7 +296,7 @@ When sections of this constitution conflict, apply this precedence order (highes
 ## 1. Executive Summary
 
 **Governing Principles**: Section 0.1 (I, II, III, VI)
-**Last Updated**: 2026-02-08 (Version 1.2.0)
+**Last Updated**: 2026-02-12 (Version 1.3.0)
 
 **Project Name**: Physical AI & Humanoid Robotics Interactive Textbook Platform
 
@@ -312,7 +365,7 @@ When sections of this constitution conflict, apply this precedence order (highes
 **Governing Principles**: Section 0.1 (I, III, VI)
 **Overrides**: None
 **Superseded By**: None
-**Last Updated**: 2026-02-08 (Version 1.2.0)
+**Last Updated**: 2026-02-12 (Version 1.3.0)
 
 ### 2.1 MUST HAVE (Core Deliverables - Non-Negotiable)
 
@@ -357,7 +410,7 @@ When sections of this constitution conflict, apply this precedence order (highes
 **MVP-0 (Day 7 - Week 1 Milestone)**:
 - [ ] Docusaurus site deployed with landing page
 - [ ] Module 1 published (Introduction to Physical AI)
-- [ ] Chatbot working with all Module 1 content 
+- [ ] Chatbot working with all Module 1 content
 - [ ] Minimum 3 test queries answering correctly with citations
 - [ ] Publicly accessible URL
 - **Demo-able**: Can show judges a complete end-to-end flow for Module 1
@@ -452,7 +505,7 @@ These features proceed ONLY if all MUST and SHOULD features are complete AND >3 
 **Governing Principles**: Section 0.1 (I, IV, V, VI)
 **Overrides**: Implementation preferences
 **Superseded By**: Section 0 (Universal Principles)
-**Last Updated**: 2026-02-08 (Version 1.2.0)
+**Last Updated**: 2026-02-12 (Version 1.3.0)
 
 ### 3.1 Core Technical Principles
 
@@ -616,7 +669,7 @@ history/               # ADRs and PHRs
 **Governing Principles**: Section 0.1 (I, III, V)
 **Overrides**: None
 **Superseded By**: Section 0 (Universal Principles)
-**Last Updated**: 2026-02-08 (Version 1.2.0)
+**Last Updated**: 2026-02-12 (Version 1.3.0)
 
 ### 4.1 Textbook Content Standards
 
@@ -702,12 +755,12 @@ history/               # ADRs and PHRs
 
 ---
 
-## 5. Development Workflow
+## 5. Development Workflow ⭐ ENHANCED
 
 **Governing Principles**: Section 0.1 (II, III, VII)
 **Overrides**: None
 **Superseded By**: Section 0 (Universal Principles)
-**Last Updated**: 2026-02-08 (Version 1.2.0)
+**Last Updated**: 2026-02-12 (Version 1.3.0)
 
 ### 5.1 Daily Workflow (Solo Developer)
 
@@ -719,20 +772,28 @@ history/               # ADRs and PHRs
 3. Pull latest changes (if using multiple machines)
 4. Run full test suite (verify nothing broke overnight)
 
-#### Development Cycle (90-min blocks)
+#### Development Cycle (90-min blocks) ⭐ ENHANCED
+
 1. Select ONE task from current milestone *(Section 0.1.II: Single-Threaded Focus)*
 2. Write/update tests (if applicable)
 3. Implement feature
 4. Run tests + manual verification
 5. Commit with conventional message
-6. Update PHR if >1 hour work *(Section 0.1.V: Explicit Over Implicit)*
+6. **✨ NEW - PHR Check**: If work >1 hour, create PHR documenting implementation *(Section 0.1.V: Explicit Over Implicit)*
+   - **Agent-Native Flow**: Use agent tools (Read template, Write PHR file) - See Section 12.3
+   - **Shell Fallback**: Run `.specify/scripts/bash/create-phr.sh --title "<title>" --stage <stage> --json`
+   - **Required Fields**: All placeholders filled (PROMPT_TEXT verbatim, RESPONSE_TEXT summary, FILES_YAML)
+   - **Post-Creation Validation**: No unresolved placeholders, file exists at expected path
 
 #### Evening Routine (15 min)
 1. Push all changes to remote
 2. Update milestone progress (check off completed items)
 3. Document blockers or decisions in ADR (if applicable)
+4. **✨ NEW - PHR Review**: Verify all >1h work sessions have corresponding PHRs in `history/prompts/`
 
-### 5.1.4 Daily Stand-Up (Solo Edition)
+**✨ NEW - PHR Automation**: AI agents should create PHRs automatically after completing work. Humans should verify PHRs exist during evening routine, not manually create them.
+
+### 5.1.4 Daily Stand-Up (Solo Edition) ⭐ ENHANCED
 
 *Implements Section 0.1.II (Single-Threaded Focus) and Section 0.1.VII (Human as Tool)*
 
@@ -741,10 +802,17 @@ history/               # ADRs and PHRs
 - What is the ONE task I must complete today? *(Section 0.1.II: Single-Threaded Focus)*
 - What is blocking me? *(If >30 min debugging, escalate per Section 0.1.VII or Section 0.2)*
 
+**✨ NEW - Human Escalation Checkpoints**:
+- [ ] **Ambiguity Check**: Is the current task's success criteria clear? If not, ask 2-3 clarifying questions.
+- [ ] **Blocker Check**: Am I stuck >30 minutes on the same problem? If yes, escalate to user or apply Section 0.2 kill switch.
+- [ ] **Architectural Check**: Do I have >2 viable approaches with unclear tradeoffs? If yes, present options to user.
+- [ ] **Dependency Check**: Did I discover a new constraint that affects timeline? If yes, surface to user for prioritization.
+
 **Evening Reflection (5 min)**:
 - Did I complete my ONE task? If no, why not?
 - Am I on track for this week's milestone? (Green/Yellow/Red)
 - What can I defer to lower priority?
+- **✨ NEW - Escalation Review**: Did I escalate blockers appropriately, or waste time debugging solo?
 
 **Weekly Check-In (Sundays, 15 min)**:
 - **Traffic Light Status**:
@@ -793,6 +861,7 @@ history/               # ADRs and PHRs
 - [ ] No hardcoded secrets or TODOs
 - [ ] Changes aligned with current milestone *(Section 0.1.II: Single-Threaded Focus)*
 - [ ] Documentation updated (if API/component changed - Section 0.1.V)
+- [ ] **✨ NEW - PHR Created**: If work >1h, PHR exists in `history/prompts/` (Section 12.3)
 
 #### Pre-Merge Checklist (feature → develop)
 - [ ] Feature complete per acceptance criteria
@@ -807,7 +876,7 @@ history/               # ADRs and PHRs
 **Governing Principles**: Section 0.1 (I, VI, VII)
 **Overrides**: None
 **Superseded By**: Section 0 (Universal Principles)
-**Last Updated**: 2026-02-08 (Version 1.2.0)
+**Last Updated**: 2026-02-12 (Version 1.3.0)
 
 ### 6.1 Technical Risks
 
@@ -930,7 +999,7 @@ history/               # ADRs and PHRs
 **Overrides**: None
 **Superseded By**: Section 0 (Universal Principles)
 **Related ADRs**: ADR-001 (Content time allocation rationale)
-**Last Updated**: 2026-02-08 (Version 1.2.0)
+**Last Updated**: 2026-02-12 (Version 1.3.0)
 
 ### 7.1 Time Budget (4 weeks = 160 hours) - AUTHORITATIVE
 
@@ -995,7 +1064,7 @@ history/               # ADRs and PHRs
 **Governing Principles**: Section 0.1 (I, III)
 **Overrides**: All other testing guidance (Sections 3.1.VI, 5.3 deprecated)
 **Superseded By**: Section 0 (Universal Principles)
-**Last Updated**: 2026-02-08 (Version 1.2.0) - **This section is the SINGLE SOURCE OF TRUTH for all testing standards**
+**Last Updated**: 2026-02-12 (Version 1.3.0) - **This section is the SINGLE SOURCE OF TRUTH for all testing standards**
 
 *This section consolidates all testing standards to eliminate duplication. References to testing in other sections point here.*
 
@@ -1123,7 +1192,7 @@ test('Chatbot displays error message when API fails', async () => {
 **Governing Principles**: Section 0.1 (V)
 **Overrides**: None
 **Superseded By**: Section 0 (Universal Principles)
-**Last Updated**: 2026-02-08 (Version 1.2.0)
+**Last Updated**: 2026-02-12 (Version 1.3.0)
 
 ### 9.1 Content Ethics
 
@@ -1171,7 +1240,7 @@ test('Chatbot displays error message when API fails', async () => {
 **Governing Principles**: Section 0.1 (I)
 **Overrides**: None
 **Superseded By**: Section 0 (Universal Principles)
-**Last Updated**: 2026-02-08 (Version 1.2.0)
+**Last Updated**: 2026-02-12 (Version 1.3.0)
 
 ### 10.1 Hackathon Scoring Alignment
 
@@ -1231,12 +1300,12 @@ test('Chatbot displays error message when API fails', async () => {
 
 ---
 
-## 11. Decision Log (ADR Template)
+## 11. Decision Log (ADR Template) ⭐ ENHANCED
 
 **Governing Principles**: Section 0.1 (V)
 **Overrides**: None
 **Superseded By**: Section 0.3 (Hierarchy of Authority - explicit ADRs can override constitution)
-**Last Updated**: 2026-02-08 (Version 1.2.0)
+**Last Updated**: 2026-02-12 (Version 1.3.0)
 
 ### 11.1 Architecture Decision Record (ADR) Format
 
@@ -1279,21 +1348,62 @@ Use this template for all significant architectural decisions:
 - [ ] Does NOT violate Section 0.2 (Universal Decision Framework)
 ```
 
-### 11.2 ADR Triggers (When to Create an ADR)
+### 11.2 ADR Triggers (When to Create an ADR) ⭐ ENHANCED
 
 Create an ADR when ALL three conditions are met:
 1. **Impact**: Decision has long-term consequences (affects architecture, data model, security)
 2. **Alternatives**: Multiple viable options exist with significant trade-offs
 3. **Scope**: Decision is cross-cutting (affects multiple modules or future features)
 
-**Examples**:
+**General Examples**:
 - ✅ Choice of vector database (Qdrant vs Pinecone vs Weaviate)
 - ✅ Authentication strategy (JWT vs session cookies vs OAuth-only vs skip auth)
-- ✅ RAG retrieval algorithm (semantic search vs hybrid search vs keyword)
 - ✅ Stack simplification decision (FastAPI + Render vs Next.js API routes)
 - ✅ **Constitution override** (deviating from Section 0.2 thresholds)
 - ❌ Button color choice (trivial, no architectural impact)
 - ❌ Variable naming convention (codified in style guide)
+
+**✨ NEW - RAG Chatbot-Specific ADR Examples**:
+
+**Indexing & Retrieval**:
+- ✅ **Chunk Size Selection** (500 vs 1000 vs 1500 tokens) - Impacts retrieval quality, API costs, context window usage
+- ✅ **Embedding Model Choice** (text-embedding-3-small vs text-embedding-3-large) - Cost/quality tradeoff
+- ✅ **Similarity Threshold** (0.6 vs 0.7 vs 0.8) - Zero-result rate vs hallucination risk tradeoff
+- ✅ **Top-K Selection** (3 vs 5 vs 7) - Answer quality vs API cost/latency tradeoff
+- ✅ **Context Boosting Algorithm** (2x vs 3x similarity boost for selected text) - Precision vs coverage
+
+**Prompt Engineering**:
+- ✅ **RAG Prompt Template** (System prompt structure, citation format, fallback behavior) - Defines answer quality/tone
+- ✅ **Temperature Setting** (0.3 vs 0.5 vs 0.7) - Creativity vs consistency tradeoff
+- ✅ **Max Tokens Configuration** (300 vs 500 vs 800 words) - Detail vs cost/latency
+
+**Caching & Performance**:
+- ✅ **Cache Strategy** (In-memory functools.lru_cache vs Redis vs no cache) - Cost savings vs infrastructure complexity
+- ✅ **Cache TTL** (24h vs 48h vs 1 week) - Freshness vs cache hit rate
+- ✅ **Embedding Caching** (Store in Qdrant metadata vs separate cache) - API cost savings vs storage complexity
+
+**Quality & Monitoring**:
+- ✅ **Answer Quality Threshold** (Accept <80% vs require >90% accuracy) - Ship timing vs quality tradeoff
+- ✅ **Citation Rate Target** (>70% vs >90% answers with citations) - Retrieval tuning effort vs UX
+- ✅ **Load Testing Criteria** (50 concurrent users vs 100 users) - Free tier constraints vs robustness
+
+**Content Management**:
+- ✅ **Incremental Indexing Strategy** (Git diff detection vs manual trigger vs full re-index) - Automation vs reliability
+- ✅ **Metadata Schema** (Navigation URL vs section ID vs both) - Citation UX vs indexing complexity
+- ✅ **Module Versioning** (content_version field vs git commit hash vs timestamp) - Traceability vs simplicity
+
+**Edge Cases**:
+- ✅ **Zero-Result Handling** (Fallback message vs related topics list vs ask for clarification) - UX vs implementation complexity
+- ✅ **Selected Text Limits** (2000 char vs 1000 char vs no limit) - API context window vs UX flexibility
+- ✅ **Session Timeout Strategy** (1h vs 2h vs no timeout) - User convenience vs database growth
+
+**When NOT to Create ADR** (even if RAG-related):
+- ❌ Changing OpenAI model version within same tier (gpt-4o-mini-2024-07-18 vs gpt-4o-mini-2024-09-01) - No architectural impact
+- ❌ Adjusting rate limit from 19 to 21 requests/min - Minor tuning, not architectural
+- ❌ Renaming API endpoint parameter from `question` to `query` - Implementation detail, not decision
+- ❌ Choosing between two logging libraries with identical features - Trivial, reversible
+
+**✨ Reminder**: If tuning RAG parameters for >6 hours without improvement, create ADR documenting failure and fallback strategy (Section 0.2, Section 0.5).
 
 ### 11.3 ADR Storage and Versioning
 
@@ -1304,12 +1414,12 @@ Create an ADR when ALL three conditions are met:
 
 ---
 
-## 12. Communication Standards
+## 12. Communication Standards ⭐ ENHANCED
 
 **Governing Principles**: Section 0.1 (V)
 **Overrides**: None
 **Superseded By**: Section 0 (Universal Principles)
-**Last Updated**: 2026-02-08 (Version 1.2.0)
+**Last Updated**: 2026-02-12 (Version 1.3.0)
 
 ### 12.1 Documentation Requirements
 
@@ -1353,7 +1463,7 @@ Create an ADR when ALL three conditions are met:
 - `docs(readme): add deployment instructions for Render`
 - `test(api): add integration tests for chat endpoint`
 
-### 12.3 Prompt History Records (PHR)
+### 12.3 Prompt History Records (PHR) ⭐ ENHANCED
 
 *Implements Section 0.1.V (Explicit Over Implicit)*
 
@@ -1365,15 +1475,59 @@ Create an ADR when ALL three conditions are met:
 - After debugging sessions that resolved critical issues
 - After architectural discussions or spec changes
 
-**Storage**:
+**✨ NEW - Automatic PHR Creation (Agent-Native Flow)**:
+
+**Preferred Method** (No shell, agent tools only):
+1. **Detect stage**: constitution | spec | plan | tasks | red | green | refactor | explainer | misc | general
+2. **Generate title**: 3-7 words, create slug for filename
+3. **Resolve route** (all under `history/prompts/`):
+   - `constitution` → `history/prompts/constitution/`
+   - Feature stages (spec, plan, tasks, red, green, refactor, explainer, misc) → `history/prompts/<feature-name>/`
+   - `general` → `history/prompts/general/`
+4. **Read PHR template** from `.specify/templates/phr-template.prompt.md` (or `templates/phr-template.prompt.md`)
+5. **Allocate ID**: Increment from last ID in directory (on collision, increment again)
+6. **Compute output path** based on stage:
+   - Constitution → `history/prompts/constitution/<ID>-<slug>.constitution.prompt.md`
+   - Feature → `history/prompts/<feature-name>/<ID>-<slug>.<stage>.prompt.md`
+   - General → `history/prompts/general/<ID>-<slug>.general.prompt.md`
+7. **Fill ALL placeholders** in YAML and body:
+   - ID, TITLE, STAGE, DATE_ISO (YYYY-MM-DD), SURFACE="agent"
+   - MODEL (best known), FEATURE (or "none"), BRANCH, USER
+   - COMMAND (current command), LABELS (["topic1","topic2",...])
+   - LINKS: SPEC/TICKET/ADR/PR (URLs or "null")
+   - FILES_YAML: list created/modified files (one per line, " - ")
+   - TESTS_YAML: list tests run/added (one per line, " - ")
+   - **PROMPT_TEXT**: full user input (verbatim, NOT truncated)
+   - **RESPONSE_TEXT**: key assistant output (concise but representative)
+   - Any OUTCOME/EVALUATION fields required by the template
+8. **Write completed file** using agent file tools (Write/Edit)
+9. **Confirm absolute path** in output
+
+**Shell Fallback** (only if agent-native unavailable):
+- Run: `.specify/scripts/bash/create-phr.sh --title "<title>" --stage <stage> [--feature <name>] --json`
+- Then open/patch the created file to ensure all placeholders filled
+
+**Storage** (automatic routing):
 - Constitution-related: `history/prompts/constitution/`
-- Feature-specific: `history/prompts/<feature-name>/`
+- Feature-specific: `history/prompts/<feature-name>/` (auto-detected from branch or explicit feature context)
 - General: `history/prompts/general/`
 
 **Required Fields** (per template):
 - ID, Title, Stage, Date, Model, Feature, Branch, User, Command
 - Prompt text (verbatim), Response summary
 - Files modified, Tests added, Outcome evaluation
+
+**Post-Creation Validations** (must pass):
+- [ ] No unresolved placeholders (e.g., `{{THIS}}`, `[THAT]`)
+- [ ] Title, stage, and dates match front-matter
+- [ ] PROMPT_TEXT is complete (not truncated)
+- [ ] File exists at expected path and is readable
+- [ ] Path matches route (constitution/feature/general)
+
+**Failure Handling**:
+- On any validation failure: warn but do not block main command
+- Skip PHR only for `/sp.phr` itself (prevents infinite loop)
+- Report: ID, path, stage, title after successful creation
 
 ---
 
@@ -1383,7 +1537,7 @@ Create an ADR when ALL three conditions are met:
 **Overrides**: Individual task priorities
 **Superseded By**: Section 0 (Universal Principles), Section 2.1 (MUST HAVE)
 **Related**: Section 7.1 (Time Budget - authoritative hours source)
-**Last Updated**: 2026-02-08 (Version 1.2.0)
+**Last Updated**: 2026-02-12 (Version 1.3.0)
 
 ### 13.1 Timeline Overview
 
@@ -1509,7 +1663,7 @@ Create an ADR when ALL three conditions are met:
 **Overrides**: None
 **Superseded By**: Section 0 (Universal Principles)
 **Related**: Section 0.2 (Universal Decision Framework)
-**Last Updated**: 2026-02-08 (Version 1.2.0)
+**Last Updated**: 2026-02-12 (Version 1.3.0)
 
 ### 14.1 Feature Cut Priority (If Time Runs Short)
 
@@ -1612,7 +1766,7 @@ Create an ADR when ALL three conditions are met:
 **Governing Principles**: Section 0.1 (V)
 **Overrides**: None
 **Superseded By**: Section 0 (Universal Principles)
-**Last Updated**: 2026-02-08 (Version 1.2.0)
+**Last Updated**: 2026-02-12 (Version 1.3.0)
 
 ### 15.1 Deployment Documentation
 
@@ -1707,7 +1861,7 @@ curl https://<app-name>.onrender.com/health
 **Governing Principles**: Section 0.4 (Constitution as Living Document)
 **Overrides**: None
 **Superseded By**: None
-**Last Updated**: 2026-02-08 (Version 1.2.0)
+**Last Updated**: 2026-02-12 (Version 1.3.0)
 
 ### 16.1 Weekly Constitution Review (Sundays, 5 minutes)
 
@@ -1719,6 +1873,8 @@ curl https://<app-name>.onrender.com/health
 - [ ] Are time budgets still realistic? (Update Section 7.1 if >20% variance)
 - [ ] Are principles being followed or just documented? (Honest assessment)
 - [ ] Did I invoke Section 0.1.VII (Human as Tool) when stuck, or did I waste time?
+- [ ] **✨ NEW**: Did I create PHRs for all >1h work sessions? (Check `history/prompts/`)
+- [ ] **✨ NEW**: Did I create ADRs for RAG decisions that met Section 11.2 triggers?
 
 **Trigger Amendment If**:
 - Found >3 contradictions in one week → Schedule constitution review session
@@ -1733,6 +1889,8 @@ curl https://<app-name>.onrender.com/health
 - **Principle Violations**: Count of principle violations (target: <3 per week)
 - **Time Accuracy**: Actual vs planned hours per activity (target: within 20%)
 - **MVP Success**: Did we meet this week's MVP gate? (Green/Yellow/Red)
+- **✨ NEW - PHR Coverage**: % of >1h work with PHRs (target: >90%)
+- **✨ NEW - ADR Quality**: ADRs created for significant RAG decisions (target: ≥2 per week in Week 2-3)
 
 **If Metrics Degrade**:
 - Yellow (1 metric off target): Reflect in evening stand-up, adjust next week
@@ -1745,6 +1903,7 @@ curl https://<app-name>.onrender.com/health
 | 1.0.0 | 2026-02-08 | NEW | Initial ratification | Baseline governance |
 | 1.1.0 | 2026-02-08 | MINOR | Expert recommendations integrated | Time budget +70h content, MVP strategy, risk analysis |
 | 1.2.0 | 2026-02-08 | **MAJOR** | Universal Principles added (Section 0), testing consolidated, hierarchy of authority | Structural reorganization for consistency |
+| **1.3.0** | **2026-02-12** | **MINOR** | **Enhanced workflow integration: PHR automation, ADR RAG examples, human escalation checkpoints, RAG-specific framework (Section 0.5), timeout hints** | **Address tasks.md alignment gaps** |
 
 ---
 
@@ -1761,12 +1920,13 @@ curl https://<app-name>.onrender.com/health
 
 ### Version Control
 
-**Current Version**: 1.2.0 (Second major amendment)
+**Current Version**: 1.3.0 (Third minor amendment - Enhanced workflow integration)
 
 **Version History**:
 - 1.0.0 (2026-02-08): Initial ratification
 - 1.1.0 (2026-02-08): Expert recommendations, MVP strategy, time reallocation (content: 50h→70h), testing revised (40%/20%)
-- **1.2.0 (2026-02-08)**: **BREAKING** - Section 0 (Universal Principles) added, testing consolidated (single source: Section 8.2), hierarchy of authority, cross-references added
+- 1.2.0 (2026-02-08): **BREAKING** - Section 0 (Universal Principles) added, testing consolidated (single source: Section 8.2), hierarchy of authority, cross-references added
+- **1.3.0 (2026-02-12)**: **MINOR** - Enhanced Section 0.2 (timeout hints), NEW Section 0.5 (RAG framework), enhanced Section 5.1 (PHR reminders), Section 5.1.4 (escalation checkpoints), Section 11.2 (RAG ADR examples), Section 12.3 (PHR automation)
 
 **Versioning Rules**:
 - **MAJOR**: Backward-incompatible changes (removed principles, scope reductions, fundamental philosophy changes, structural reorganization)
@@ -1780,7 +1940,7 @@ curl https://<app-name>.onrender.com/health
 - PHRs MUST document adherence to principles *(Section 12.3)*
 - Weekly review: Are we following our own rules? *(Section 16)*
 
-**Version**: 1.2.0 | **Ratified**: 2026-02-08 | **Last Amended**: 2026-02-08
+**Version**: 1.3.0 | **Ratified**: 2026-02-08 | **Last Amended**: 2026-02-12
 
 ---
 

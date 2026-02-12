@@ -4,13 +4,14 @@ import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
+import { BookOpen, GraduationCap, Code, BarChart3, Target, Globe } from 'lucide-react';
 
 import styles from './index.module.css';
 
 function HomepageHeader() {
   const {siteConfig} = useDocusaurusContext();
   return (
-    <header className={clsx('hero hero--primary', styles.heroBanner)}>
+    <header className={styles.heroBanner}>
       <div className="container">
         <Heading as="h1" className="hero__title">
           {siteConfig.title}
@@ -18,8 +19,8 @@ function HomepageHeader() {
         <p className="hero__subtitle">{siteConfig.tagline}</p>
         <div className={styles.buttons}>
           <Link
-            className="button button--secondary button--lg"
-            to="/docs/intro">
+            className={styles.heroButton}
+            to="/docs/module-0/">
             Get Started with Module 0 →
           </Link>
         </div>
@@ -28,70 +29,92 @@ function HomepageHeader() {
   );
 }
 
+type FeatureCardProps = {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+};
+
+function FeatureCard({ icon, title, description }: FeatureCardProps) {
+  return (
+    <div className={styles.featureCard}>
+      <div className={styles.featureIcon} role="img" aria-label={title}>
+        {icon}
+      </div>
+      <h3 className={styles.featureTitle}>{title}</h3>
+      <p className={styles.featureDescription}>{description}</p>
+    </div>
+  );
+}
+
 function HomepageFeatures() {
+  const features = [
+    {
+      icon: <BookOpen />,
+      title: '6 Comprehensive Modules',
+      description: 'From Physical AI fundamentals to advanced topics including ROS 2, simulation (Gazebo/Unity), NVIDIA Isaac SDK, and Vision-Language-Action models.',
+    },
+    {
+      icon: <GraduationCap />,
+      title: 'University-Level Content',
+      description: 'Rigorous academic standards with IEEE-style citations, technical accuracy, and content appropriate for upper-division undergraduate or graduate students.',
+    },
+    {
+      icon: <Code />,
+      title: 'Interactive Code Playgrounds',
+      description: 'Execute Python code examples directly in your browser. Learn ROS 2, robotics simulation, and AI integration through hands-on experimentation.',
+    },
+    {
+      icon: <BarChart3 />,
+      title: 'Rich Visualizations',
+      description: '3-5 diagrams per chapter including Mermaid flowcharts, architecture diagrams, and technical illustrations to enhance understanding of complex concepts.',
+    },
+    {
+      icon: <Target />,
+      title: 'Practical Assessments',
+      description: 'Self-assessment projects including ROS 2 package development, Gazebo simulation, Isaac perception pipelines, and a comprehensive capstone integration project.',
+    },
+    {
+      icon: <Globe />,
+      title: 'Open Access',
+      description: '100% open-access citations ensuring every student can verify sources. No paywalls, no institutional access required - knowledge for everyone.',
+    },
+  ];
+
   return (
     <section className={styles.features}>
       <div className="container">
-        <div className="row">
-          <div className="col col--4">
-            <div className="text--center padding-horiz--md">
-              <h3>🤖 6 Comprehensive Modules</h3>
-              <p>
-                From Physical AI fundamentals to advanced topics including ROS 2,
-                simulation (Gazebo/Unity), NVIDIA Isaac SDK, and Vision-Language-Action models.
-              </p>
-            </div>
-          </div>
-          <div className="col col--4">
-            <div className="text--center padding-horiz--md">
-              <h3>📖 University-Level Content</h3>
-              <p>
-                Rigorous academic standards with IEEE-style citations, technical accuracy,
-                and content appropriate for upper-division undergraduate or graduate students.
-              </p>
-            </div>
-          </div>
-          <div className="col col--4">
-            <div className="text--center padding-horiz--md">
-              <h3>💻 Interactive Code Playgrounds</h3>
-              <p>
-                Execute Python code examples directly in your browser. Learn ROS 2, robotics
-                simulation, and AI integration through hands-on experimentation.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="row" style={{marginTop: '2rem'}}>
-          <div className="col col--4">
-            <div className="text--center padding-horiz--md">
-              <h3>📊 Rich Visualizations</h3>
-              <p>
-                3-5 diagrams per chapter including Mermaid flowcharts, architecture diagrams,
-                and technical illustrations to enhance understanding of complex concepts.
-              </p>
-            </div>
-          </div>
-          <div className="col col--4">
-            <div className="text--center padding-horiz--md">
-              <h3>🎯 Practical Assessments</h3>
-              <p>
-                Self-assessment projects including ROS 2 package development, Gazebo simulation,
-                Isaac perception pipelines, and a comprehensive capstone integration project.
-              </p>
-            </div>
-          </div>
-          <div className="col col--4">
-            <div className="text--center padding-horiz--md">
-              <h3>🌐 Open Access</h3>
-              <p>
-                100% open-access citations ensuring every student can verify sources.
-                No paywalls, no institutional access required - knowledge for everyone.
-              </p>
-            </div>
-          </div>
+        <div className={styles.featuresGrid}>
+          {features.map((feature, idx) => (
+            <FeatureCard key={idx} {...feature} />
+          ))}
         </div>
       </div>
     </section>
+  );
+}
+
+type ModuleCardProps = {
+  title: string;
+  description: string;
+  duration: string;
+  moduleNumber: number;
+};
+
+function ModuleCard({ title, description, duration, moduleNumber }: ModuleCardProps) {
+  return (
+    <div className={styles.moduleCard}>
+      <div className={styles.moduleHeader}>
+        <div className={styles.moduleNumber} aria-label={`Module ${moduleNumber}`}>
+          {moduleNumber}
+        </div>
+        <h3 className={styles.moduleTitle}>{title}</h3>
+      </div>
+      <div className={styles.moduleBody}>
+        <p className={styles.moduleDescription}>{description}</p>
+        <p className={styles.moduleDuration}>⏱️ {duration}</p>
+      </div>
+    </div>
   );
 }
 
@@ -132,22 +155,12 @@ function HomepageModules() {
   return (
     <section className={styles.modules}>
       <div className="container">
-        <Heading as="h2" className="text--center margin-bottom--lg">
+        <Heading as="h2" className={styles.modulesHeading}>
           Course Structure
         </Heading>
-        <div className="row">
+        <div className={styles.modulesGrid}>
           {modules.map((module, idx) => (
-            <div className="col col--6" key={idx} style={{marginBottom: '2rem'}}>
-              <div className="card">
-                <div className="card__header">
-                  <h3>{module.title}</h3>
-                </div>
-                <div className="card__body">
-                  <p>{module.description}</p>
-                  <p><strong>Duration:</strong> {module.duration}</p>
-                </div>
-              </div>
-            </div>
+            <ModuleCard key={idx} {...module} moduleNumber={idx} />
           ))}
         </div>
       </div>
@@ -155,7 +168,7 @@ function HomepageModules() {
   );
 }
 
-export default function Home(): JSX.Element {
+export default function Home() {
   const {siteConfig} = useDocusaurusContext();
   return (
     <Layout

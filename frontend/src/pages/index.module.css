@@ -3,17 +3,30 @@
  * and scoped locally.
  */
 
+/* ============================================
+   HERO SECTION
+   ============================================ */
 .heroBanner {
-  padding: 4rem 0;
+  padding: 5rem 0;
   text-align: center;
   position: relative;
   overflow: hidden;
+  background: linear-gradient(135deg, #1DB88F 0%, #17A078 100%);
+  color: #FFFFFF;
 }
 
-@media screen and (max-width: 996px) {
-  .heroBanner {
-    padding: 2rem;
-  }
+.heroBanner h1 {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #FFFFFF;
+}
+
+.heroBanner p {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #FFFFFF;
+  opacity: 0.95;
 }
 
 .buttons {
@@ -23,14 +36,295 @@
   margin-top: 2rem;
 }
 
+.heroButton {
+  background-color: #FFFFFF;
+  color: #1DB88F;
+  border: 2px solid #FFFFFF;
+  border-radius: 8px;
+  padding: 0.875rem 2rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.heroButton:hover {
+  background-color: transparent;
+  color: #FFFFFF;
+  border-color: #FFFFFF;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+}
+
+/* ============================================
+   FEATURES SECTION
+   ============================================ */
 .features {
   display: flex;
   align-items: center;
-  padding: 3rem 0;
+  padding: 4rem 0;
   width: 100%;
-  background-color: var(--ifm-color-emphasis-100);
+  background-color: var(--color-dark-bg);
 }
 
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.featureCard {
+  background-color: var(--color-dark-bg-alt);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.featureCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 24px rgba(29, 184, 143, 0.3);
+  border-color: var(--color-accent);
+}
+
+.featureIcon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1DB88F 0%, #17A078 100%);
+  border-radius: 50%;
+  color: #FFFFFF;
+}
+
+.featureIcon svg {
+  width: 40px;
+  height: 40px;
+}
+
+.featureTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--color-dark-heading);
+}
+
+.featureDescription {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-dark-text);
+}
+
+/* ============================================
+   MODULES SECTION
+   ============================================ */
 .modules {
-  padding: 3rem 0;
+  padding: 4rem 0;
+  background-color: var(--color-dark-bg);
+}
+
+.modulesHeading {
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 3rem;
+  color: var(--color-dark-heading);
+}
+
+.modulesGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.moduleCard {
+  background-color: var(--color-dark-bg-alt);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.moduleCard:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-accent);
+  box-shadow: 0 4px 16px rgba(29, 184, 143, 0.2);
+}
+
+.moduleHeader {
+  background: linear-gradient(135deg, rgba(29, 184, 143, 0.15) 0%, rgba(23, 160, 120, 0.15) 100%);
+  border-bottom: 2px solid var(--color-accent);
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.moduleNumber {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1DB88F 0%, #17A078 100%);
+  border-radius: 50%;
+  color: #FFFFFF;
+  font-size: 1.5rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.moduleTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-dark-heading);
+  margin: 0;
+  flex: 1;
+}
+
+.moduleBody {
+  padding: 1.5rem;
+}
+
+.moduleDescription {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-dark-text);
+  margin-bottom: 1rem;
+}
+
+.moduleDuration {
+  font-size: 0.875rem;
+  color: var(--color-accent);
+  font-weight: 500;
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+.heroButton:focus-visible,
+.featureCard:focus-visible,
+.moduleCard:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .heroButton,
+  .featureCard,
+  .moduleCard {
+    transition: none;
+  }
+
+  .heroButton:hover,
+  .featureCard:hover,
+  .moduleCard:hover {
+    transform: none;
+  }
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+/* Tablet (768px - 996px) */
+@media screen and (max-width: 996px) {
+  .heroBanner {
+    padding: 3rem 1rem;
+  }
+
+  .heroBanner h1 {
+    font-size: 2.5rem;
+  }
+
+  .heroBanner p {
+    font-size: 1.25rem;
+  }
+
+  .featuresGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .modulesGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+/* Mobile (<768px) */
+@media screen and (max-width: 768px) {
+  .heroBanner {
+    padding: 2rem 1rem;
+  }
+
+  .heroBanner h1 {
+    font-size: 2rem;
+  }
+
+  .heroBanner p {
+    font-size: 1.125rem;
+  }
+
+  .heroButton {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .featuresGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .featureIcon {
+    width: 64px;
+    height: 64px;
+  }
+
+  .featureIcon svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .featureTitle {
+    font-size: 1.25rem;
+  }
+
+  .modulesHeading {
+    font-size: 2rem;
+  }
+
+  .modulesGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .moduleHeader {
+    padding: 1rem;
+  }
+
+  .moduleNumber {
+    width: 40px;
+    height: 40px;
+    font-size: 1.25rem;
+  }
+
+  .moduleTitle {
+    font-size: 1.125rem;
+  }
+
+  .moduleBody {
+    padding: 1rem;
+  }
 }

@@ -45,6 +45,24 @@ const config: Config = {
     mermaid: true, // Enable Mermaid diagram support
   },
 
+  plugins: [
+    'docusaurus-plugin-structurizr', // C4 architecture diagrams
+  ],
+
+  stylesheets: [
+    {
+      href: 'https://cdn.jsdelivr.net/npm/katex@0.13.24/dist/katex.min.css',
+      type: 'text/css',
+      integrity:
+        'sha384-odtC+0UGzzFL/6PNoE8rX/SPcQDXBJ+uRepguP4QkPCm2LBxH3FA3y+fKSiJ+AmM',
+      crossorigin: 'anonymous',
+    },
+    {
+      href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap',
+      rel: 'stylesheet',
+    },
+  ],
+
   presets: [
     [
       'classic',
@@ -108,11 +126,36 @@ const config: Config = {
       style: 'dark',
       links: [
         {
-          title: 'Docs',
+          title: 'Learn',
           items: [
             {
-              label: 'Tutorial',
+              label: 'Module 0',
+              to: '/docs/module-0/',
+            },
+            {
+              label: 'Module 1',
+              to: '/docs/module-1/',
+            },
+            {
+              label: 'Course Structure',
               to: '/docs/intro',
+            },
+          ],
+        },
+        {
+          title: 'Resources',
+          items: [
+            {
+              label: 'GitHub Repository',
+              href: 'https://github.com/Msaleemakhtar/hackathine_1',
+            },
+            {
+              label: 'NVIDIA Isaac SDK',
+              href: 'https://developer.nvidia.com/isaac-sdk',
+            },
+            {
+              label: 'ROS 2 Documentation',
+              href: 'https://docs.ros.org/en/humble/',
             },
           ],
         },
@@ -120,29 +163,16 @@ const config: Config = {
           title: 'Community',
           items: [
             {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+              label: 'GitHub Discussions',
+              href: 'https://github.com/Msaleemakhtar/hackathine_1/discussions',
             },
             {
-              label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
+              label: 'Report Issue',
+              href: 'https://github.com/Msaleemakhtar/hackathine_1/issues',
             },
             {
-              label: 'X',
-              href: 'https://x.com/docusaurus',
-            },
-          ],
-        },
-        {
-          title: 'More',
-          items: [
-            {
-              label: 'Blog',
-              to: '/blog',
-            },
-            {
-              label: 'GitHub',
-              href: 'https://github.com/facebook/docusaurus',
+              label: 'Contribute',
+              href: 'https://github.com/Msaleemakhtar/hackathine_1/blob/main/CONTRIBUTING.md',
             },
           ],
         },
