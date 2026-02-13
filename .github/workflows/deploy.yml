@@ -5,6 +5,11 @@ on:
     branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   deploy-backend:
     name: Deploy Backend to Vercel
@@ -45,6 +50,8 @@ jobs:
         run: npm run build
         env:
           NODE_ENV: production
+          REACT_APP_API_URL: https://backend-vert-zeta-89.vercel.app
+          REACT_APP_CHATBOT_ENABLED: true
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
