@@ -4,37 +4,91 @@
  * work well for content-centric websites.
  */
 
-/* You can override the default Infima variables here. */
+/* Professional Color Palette - 40-Year Designer */
 :root {
-  --ifm-color-primary: #1DB88F;
-  --ifm-color-primary-dark: #1AA57F;
-  --ifm-color-primary-darker: #17A078;
-  --ifm-color-primary-darkest: #148B69;
-  --ifm-color-primary-light: #2DC9A0;
-  --ifm-color-primary-lighter: #3DD1A8;
-  --ifm-color-primary-lightest: #5DD9B7;
-  --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  /* Primary Brand Colors */
+  --ifm-color-primary: #00C9A7;
+  --ifm-color-primary-dark: #00B696;
+  --ifm-color-primary-darker: #00AB8D;
+  --ifm-color-primary-darkest: #008D73;
+  --ifm-color-primary-light: #00DDB8;
+  --ifm-color-primary-lighter: #00E8C1;
+  --ifm-color-primary-lightest: #1FFFD3;
 
-  /* Custom font family */
-  --ifm-font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  /* Professional Palette */
+  --color-deep-navy: #0A1929;
+  --color-slate: #1E293B;
+  --color-electric-teal: #00C9A7;
+  --color-cyan: #00D4FF;
+  --color-purple: #6366F1;
+  --color-warm-accent: #FF6B6B;
 
-  /* Dark section custom properties */
-  --color-dark-bg: #1A1A1A;
-  --color-dark-bg-alt: #222222;
-  --color-dark-text: #F5F5F5;
+  /* Backgrounds */
+  --color-bg-light: #F8FAFC;
+  --color-bg-white: #FFFFFF;
+  --color-dark-bg: #0A1929;
+  --color-dark-bg-alt: #1E293B;
+
+  /* Text Colors */
+  --color-text-primary: #0F172A;
+  --color-text-secondary: #64748B;
+  --color-text-light: #CBD5E1;
   --color-dark-heading: #FFFFFF;
-  --color-accent: #1DB88F;
+  --color-dark-text: #E2E8F0;
+
+  /* Accent Colors */
+  --color-accent: #00C9A7;
+  --color-accent-hover: #00DDB8;
+
+  /* Typography */
+  --ifm-font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  --ifm-font-family-monospace: 'Fira Code', 'Consolas', 'Monaco', monospace;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 201, 167, 0.1);
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.15);
+  --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.2);
+
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #00C9A7 0%, #00D4FF 100%);
+  --gradient-dark: linear-gradient(135deg, #0A1929 0%, #1E293B 100%);
+  --gradient-accent: linear-gradient(135deg, #6366F1 0%, #00D4FF 100%);
 }
 
-/* For readability concerns, you should choose a lighter palette in dark mode. */
+/* Dark Mode - Enhanced Contrast */
 [data-theme='dark'] {
-  --ifm-color-primary: #2DC9A0;
-  --ifm-color-primary-dark: #1DB88F;
-  --ifm-color-primary-darker: #1AA57F;
-  --ifm-color-primary-darkest: #17A078;
-  --ifm-color-primary-light: #3DD1A8;
-  --ifm-color-primary-lighter: #4FDDBF;
-  --ifm-color-primary-lightest: #6FE5CB;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  --ifm-color-primary: #00DDB8;
+  --ifm-color-primary-dark: #00C9A7;
+  --ifm-color-primary-darker: #00B696;
+  --ifm-color-primary-darkest: #00AB8D;
+  --ifm-color-primary-light: #1FFFD3;
+  --ifm-color-primary-lighter: #33FFD9;
+  --ifm-color-primary-lightest: #66FFE3;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 221, 184, 0.1);
+
+  /* Dark mode specific colors */
+  --color-bg-light: #0F172A;
+  --color-bg-white: #1E293B;
+  --color-text-primary: #F1F5F9;
+  --color-text-secondary: #CBD5E1;
+}
+
+/* Premium Typography */
+body {
+  font-family: var(--ifm-font-family-base);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
 }
