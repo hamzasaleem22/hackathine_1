@@ -1,5 +1,5 @@
-import {themes as prismThemes} from 'prism-react-renderer';
-import type {Config} from '@docusaurus/types';
+import { themes as prismThemes } from 'prism-react-renderer';
+import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
@@ -15,14 +15,14 @@ const config: Config = {
   },
 
   // Set the production url of your site here
-  url: 'https://msaleemakhtar.github.io',
+  url: 'https://hamzasaleem22.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/hackathine_1/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'Msaleemakhtar', // Usually your GitHub org/user name.
+  organizationName: 'hamzasaleem22', // Usually your GitHub org/user name.
   projectName: 'hackathine_1', // Usually your repo name.
   deploymentBranch: 'gh-pages', // Branch for GitHub Pages deployment
 
@@ -72,7 +72,7 @@ const config: Config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/Msaleemakhtar/hackathine_1/tree/main/frontend/',
+            'https://github.com/hamzasaleem22/hackathine_1/tree/main/frontend/',
         },
         blog: {
           showReadingTime: true,
@@ -116,7 +116,7 @@ const config: Config = {
           label: 'Textbook',
         },
         {
-          href: 'https://github.com/Msaleemakhtar/hackathine_1',
+          href: 'https://github.com/hamzasaleem22/hackathine_1',
           label: 'GitHub',
           position: 'right',
         },
@@ -147,7 +147,7 @@ const config: Config = {
           items: [
             {
               label: 'GitHub Repository',
-              href: 'https://github.com/Msaleemakhtar/hackathine_1',
+              href: 'https://github.com/hamzasaleem22/hackathine_1',
             },
             {
               label: 'NVIDIA Isaac SDK',
@@ -164,15 +164,15 @@ const config: Config = {
           items: [
             {
               label: 'GitHub Discussions',
-              href: 'https://github.com/Msaleemakhtar/hackathine_1/discussions',
+              href: 'https://github.com/hamzasaleem22/hackathine_1/discussions',
             },
             {
               label: 'Report Issue',
-              href: 'https://github.com/Msaleemakhtar/hackathine_1/issues',
+              href: 'https://github.com/hamzasaleem22/hackathine_1/issues',
             },
             {
               label: 'Contribute',
-              href: 'https://github.com/Msaleemakhtar/hackathine_1/blob/main/CONTRIBUTING.md',
+              href: 'https://github.com/hamzasaleem22/hackathine_1/blob/main/CONTRIBUTING.md',
             },
           ],
         },
