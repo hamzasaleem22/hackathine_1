@@ -38,19 +38,19 @@ description: "Task list for RAG Chatbot implementation - Professionally Reviewed
 - [X] T002 [P] Create backend project structure in /backend/ with directories: api/, scripts/, tests/, db/, alembic/
 - [X] T003 [P] Provision Qdrant Cloud Free Tier account and create collection 'physical-ai-textbook' (1536 dimensions, cosine similarity)
 - [X] T004 [P] Provision Neon Serverless Postgres database and save connection string
-- [ ] T005 Create Vercel project and link to GitHub repository with build configuration
+- [X] T005 Create Vercel project and link to GitHub repository with build configuration
 - [X] T005A Create GitHub Action workflow /.github/workflows/ci.yml to run tests on pull requests (backend pytest, frontend jest)
 - [X] T005B Add deployment workflow /.github/workflows/deploy.yml triggered on merge to main (deploy backend to Vercel, frontend to GitHub Pages)
 - [ ] T005C Test CI/CD pipeline by creating test PR and verifying automated tests run and deployment succeeds
 - [X] T006 [P] Create /backend/.env.example with all environment variables (OPENAI_API_KEY, QDRANT_URL, QDRANT_API_KEY, DATABASE_URL, ALLOWED_ORIGINS)
-- [ ] T007 Add environment variables to Vercel dashboard (OPENAI_API_KEY, QDRANT_URL, QDRANT_API_KEY, DATABASE_URL)
+- [X] T007 Add environment variables to Vercel dashboard (OPENAI_API_KEY, QDRANT_URL, QDRANT_API_KEY, DATABASE_URL)
 - [X] T008 [P] Create /backend/api/main.py FastAPI app entry point with CORS configuration for GitHub Pages origin
 - [X] T008A Add explicit OPTIONS handler in /backend/api/main.py for all routes (return 200 with CORS headers for preflight requests)
-- [ ] T008B Test CORS preflight with curl OPTIONS request from GitHub Pages origin and verify 200 response with correct headers
+- [X] T008B Test CORS preflight with curl OPTIONS request from GitHub Pages origin and verify 200 response with correct headers
 - [X] T008C Create error handling middleware in /backend/api/middleware/error_handler.py (catch all exceptions, log to structured logger, return user-friendly JSON error response)
 - [X] T008D Add exception handlers for specific error types (ValidationError → 400, RateLimitError → 429, OpenAIError → 503, QdrantError → 503)
 - [X] T009 Validate OpenAI API key with test embedding call (text-embedding-3-small) and test completion call (gpt-4o-mini)
-- [ ] T009A Run smoke test: Start FastAPI dev server, verify /health endpoint returns 200, verify CORS headers present in response
+- [X] T009A Run smoke test: Start FastAPI dev server, verify /health endpoint returns 200, verify CORS headers present in response
 
 **Checkpoint**: Environment ready - all credentials validated, project structure created, CI/CD operational
 
@@ -64,48 +64,48 @@ description: "Task list for RAG Chatbot implementation - Professionally Reviewed
 
 ### Content Indexing Pipeline (Plan Phase 1)
 
-- [ ] T010 Create /backend/scripts/extract_content.py to parse MDX files from /frontend/docs/ directory and extract frontmatter + body content
-- [ ] T011 Create /backend/scripts/chunk_content.py to split content by H2/H3 heading boundaries with metadata (module_id, chapter_id, section_id, heading_title, file_path, navigation_url)
-- [ ] T011A Update chunk_content.py to extract image captions and alt-text from MDX (store in metadata as image_references array for edge case: questions about images/diagrams)
-- [ ] T012 Create /backend/scripts/embed_chunks.py to batch-generate embeddings (100 chunks per API call) using OpenAI text-embedding-3-small
-- [ ] T013 Create /backend/scripts/upload_to_qdrant.py to populate vector index with embeddings and metadata
-- [ ] T014 Create /backend/scripts/validate_index.py to query Qdrant and verify 100% of Module 0 content indexed with correct metadata
-- [ ] T015 Run indexing pipeline end-to-end for Module 0 content and validate ≥20 chunks indexed successfully
+- [X] T010 Create /backend/scripts/extract_content.py to parse MDX files from /frontend/docs/ directory and extract frontmatter + body content
+- [X] T011 Create /backend/scripts/chunk_content.py to split content by H2/H3 heading boundaries with metadata (module_id, chapter_id, section_id, heading_title, file_path, navigation_url)
+- [X] T011A Update chunk_content.py to extract image captions and alt-text from MDX (store in metadata as image_references array for edge case: questions about images/diagrams)
+- [X] T012 Create /backend/scripts/embed_chunks.py to batch-generate embeddings (100 chunks per API call) using OpenAI text-embedding-3-small
+- [X] T013 Create /backend/scripts/upload_to_qdrant.py to populate vector index with embeddings and metadata
+- [X] T014 Create /backend/scripts/validate_index.py to query Qdrant and verify 100% of Module 0 content indexed with correct metadata
+- [X] T015 Run indexing pipeline end-to-end for Module 0 content and validate ≥20 chunks indexed successfully
 - [ ] T015A Create initialization state check in /backend/api/routes/content_status.py (return indexing_complete: bool field)
 - [ ] T015B Create /frontend/src/components/Chatbot/InitializingBanner.tsx to display "Chatbot initializing..." message when indexing_complete=false (edge case: queried before indexing)
 
 ### Database Schema & Core API (Plan Phase 2)
 
-- [ ] T016 Create /backend/db/schema.sql with tables: chat_sessions, chat_messages, feedback_events, issue_reports (corrected PostgreSQL syntax with CREATE INDEX statements)
-- [ ] T016A Install and configure Alembic for database migrations in /backend/alembic/ (alembic init alembic)
-- [ ] T016B Create initial migration from schema.sql using alembic revision --autogenerate -m "Initial schema"
-- [ ] T016C Add migration application to deployment process in /backend/api/main.py startup event (alembic upgrade head)
-- [ ] T017 Apply database schema to Neon Postgres and verify all tables and indexes created
-- [ ] T018 [P] Create /backend/api/models/schemas.py with Pydantic models for QueryRequest, QueryResponse, Citation, FeedbackRequest, ReportIssueRequest
-- [ ] T019 [P] Create /backend/api/services/embedding.py to generate query embeddings using OpenAI text-embedding-3-small
-- [ ] T020 Create /backend/api/services/qdrant_search.py to implement semantic search function (top_k=5, threshold=0.7, cosine similarity)
-- [ ] T021A Create /backend/api/services/rag_prompt.py with RAG prompt template from plan.md Section 9 (system prompt, user prompt template, context chunk format)
-- [ ] T021B Create /backend/api/services/rag_completion.py to call OpenAI gpt-4o-mini with error handling, retry logic, and timeout (30s)
-- [ ] T021C Create /backend/api/services/rag_citation.py to extract citations from chunks and format as Citation objects with section titles and URLs
-- [ ] T021D Implement ambiguity detection in rag_prompt.py (if question <5 words or only "what/how/why", prompt for clarification - edge case: ambiguous questions)
-- [ ] T021E Implement query scope validation in rag_prompt.py (if question contains "all/every/list all", return summary + section links instead of direct answer - edge case: very broad questions)
-- [ ] T022 Create /backend/api/routes/health.py with /health endpoint returning Qdrant and Postgres connection status
-- [ ] T023 Create /backend/api/routes/content_status.py with /api/content-status endpoint returning last_updated, content_version, indexed_modules, total_chunks, indexing_complete
-- [ ] T024 Create /backend/api/routes/query.py with /api/query endpoint integrating search + RAG (accepts question and session_id, returns answer with citations)
-- [ ] T025 Implement in-memory rate limiting middleware in /backend/api/middleware/rate_limit.py (20 requests per minute per IP, sliding window)
-- [ ] T025A Implement session cleanup in rate_limit.py (remove entries older than 1 hour to prevent memory leak, run on every request or periodic background task)
-- [ ] T025B Add memory monitoring to /backend/api/routes/metrics.py (track rate_limit_cache_size, alert if >10K entries)
-- [ ] T026 Add rate limiting to /api/query endpoint with 429 response and Retry-After header
+- [X] T016 Create /backend/db/schema.sql with tables: chat_sessions, chat_messages, feedback_events, issue_reports (corrected PostgreSQL syntax with CREATE INDEX statements)
+- [X] T016A Install and configure Alembic for database migrations in /backend/alembic/ (alembic init alembic)
+- [X] T016B Create initial migration from schema.sql using alembic revision --autogenerate -m "Initial schema"
+- [X] T016C Add migration application to deployment process in /backend/api/main.py startup event (alembic upgrade head)
+- [X] T017 Apply database schema to Neon Postgres and verify all tables and indexes created
+- [X] T018 [P] Create /backend/api/models/schemas.py with Pydantic models for QueryRequest, QueryResponse, Citation, FeedbackRequest, ReportIssueRequest
+- [X] T019 [P] Create /backend/api/services/embedding.py to generate query embeddings using OpenAI text-embedding-3-small
+- [X] T020 Create /backend/api/services/qdrant_search.py to implement semantic search function (top_k=5, threshold=0.7, cosine similarity)
+- [X] T021A Create /backend/api/services/rag_prompt.py with RAG prompt template from plan.md Section 9 (system prompt, user prompt template, context chunk format)
+- [X] T021B Create /backend/api/services/rag_completion.py to call OpenAI gpt-4o-mini with error handling, retry logic, and timeout (30s)
+- [X] T021C Create /backend/api/services/rag_citation.py to extract citations from chunks and format as Citation objects with section titles and URLs
+- [X] T021D Implement ambiguity detection in rag_prompt.py (if question <5 words or only "what/how/why", prompt for clarification - edge case: ambiguous questions)
+- [X] T021E Implement query scope validation in rag_prompt.py (if question contains "all/every/list all", return summary + section links instead of direct answer - edge case: very broad questions)
+- [X] T022 Create /backend/api/routes/health.py with /health endpoint returning Qdrant and Postgres connection status
+- [X] T023 Create /backend/api/routes/content_status.py with /api/content-status endpoint returning last_updated, content_version, indexed_modules, total_chunks, indexing_complete
+- [X] T024 Create /backend/api/routes/query.py with /api/query endpoint integrating search + RAG (accepts question and session_id, returns answer with citations)
+- [X] T025 Implement in-memory rate limiting middleware in /backend/api/middleware/rate_limit.py (20 requests per minute per IP, sliding window)
+- [X] T025A Implement session cleanup in rate_limit.py (remove entries older than 1 hour to prevent memory leak, run on every request or periodic background task)
+- [X] T025B Add memory monitoring to /backend/api/routes/metrics.py (track rate_limit_cache_size, alert if >10K entries)
+- [X] T026 Add rate limiting to /api/query endpoint with 429 response and Retry-After header
 - [ ] T027A Test individual services in isolation (embedding, qdrant_search, rag) with unit tests to verify correct behavior before integration
 - [ ] T027B Integration test: Test /api/query endpoint with 5 sample questions and verify all return answers with ≥1 citation in <3 seconds
 - [ ] T027C Run smoke test: Index 5 sample chunks, query /api/query with 2 test questions, verify responses <3s
-- [ ] T027D [P] Install and configure pytest in /backend/ with coverage plugin (pytest-cov, pytest-asyncio for async tests, add pytest.ini)
-- [ ] T027E [P] Install and configure Jest + React Testing Library in /frontend/ (jest, @testing-library/react, @testing-library/jest-dom, add jest.config.js)
-- [ ] T027F [P] Install and configure Cypress in /frontend/ for E2E tests (cypress, cypress-real-events for mobile gestures, add cypress.config.ts)
-- [ ] T027G Create test fixtures and mock data in /backend/tests/fixtures/ (sample questions, expected answers, mock embeddings to avoid OpenAI costs)
-- [ ] T027H Create sample questions dataset in /backend/tests/fixtures/sample_questions.json (20 questions covering all modules, varied complexity)
-- [ ] T027I Create mock embeddings in /backend/tests/fixtures/mock_embeddings.npy (pre-computed embeddings for test questions, avoid OpenAI API calls during testing)
-- [ ] T027J Create expected answers dataset in /backend/tests/fixtures/expected_answers.json (ground truth answers for quality validation)
+- [X] T027D [P] Install and configure pytest in /backend/ with coverage plugin (pytest-cov, pytest-asyncio for async tests, add pytest.ini)
+- [X] T027E [P] Install and configure Jest + React Testing Library in /frontend/ (jest, @testing-library/react, @testing-library/jest-dom, add jest.config.js)
+- [X] T027F [P] Install and configure Cypress in /frontend/ for E2E tests (cypress, cypress-real-events for mobile gestures, add cypress.config.ts)
+- [X] T027G Create test fixtures and mock data in /backend/tests/fixtures/ (sample questions, expected answers, mock embeddings to avoid OpenAI costs)
+- [X] T027H Create sample questions dataset in /backend/tests/fixtures/sample_questions.json (20 questions covering all modules, varied complexity)
+- [X] T027I Create mock embeddings in /backend/tests/fixtures/mock_embeddings.json (pre-computed embeddings for test questions, avoid OpenAI API calls during testing)
+- [X] T027J Create expected answers dataset in /backend/tests/fixtures/expected_answers.json (ground truth answers for quality validation)
 
 **Checkpoint**: Foundation ready - content indexed, backend API functional, test infrastructure complete, ready for user story implementation
 
@@ -611,3 +611,5 @@ Before marking any phase complete:
 **Review Status**: ✅ Professional Review Applied - All Critical Gaps Addressed
 **Ready for Execution**: Yes ✅
 **Production Readiness**: High Confidence 🎯
+
+

@@ -1,0 +1,124 @@
+{
+  "answers": [
+    {
+      "question_id": "q001",
+      "expected_answer": "Physical AI refers to artificial intelligence systems that interact with the physical world through sensors and actuators, enabling embodied intelligence in robots and autonomous systems.",
+      "required_keywords": ["physical world", "sensors", "actuators", "embodied"],
+      "min_citations": 1
+    },
+    {
+      "question_id": "q002",
+      "expected_answer": "Physical AI differs from traditional AI in that it must deal with real-world physical constraints, sensor noise, real-time processing requirements, and the need to control physical actuators rather than purely digital outputs.",
+      "required_keywords": ["physical constraints", "real-time", "actuators"],
+      "min_citations": 1
+    },
+    {
+      "question_id": "q003",
+      "expected_answer": "The main components include sensors for perception, actuators for action, processing units for computation, and control systems that integrate perception with action through feedback loops.",
+      "required_keywords": ["sensors", "actuators", "processing", "control", "feedback"],
+      "min_citations": 1
+    },
+    {
+      "question_id": "q004",
+      "expected_answer": "Sensors enable Physical AI systems to perceive their environment by converting physical phenomena into digital signals that can be processed by the AI system.",
+      "required_keywords": ["perceive", "environment", "signals"],
+      "min_citations": 1
+    },
+    {
+      "question_id": "q005",
+      "expected_answer": "Embodied intelligence refers to the idea that intelligence emerges from the interaction between an agent's body, brain, and environment, rather than existing purely as abstract computation.",
+      "required_keywords": ["body", "brain", "environment", "interaction"],
+      "min_citations": 1
+    },
+    {
+      "question_id": "q006",
+      "expected_answer": "Physical AI systems interact with their environment through a continuous perception-action loop, where sensors gather information, the AI processes it, and actuators execute actions that affect the environment.",
+      "required_keywords": ["perception-action", "loop", "sensors", "actuators"],
+      "min_citations": 1
+    },
+    {
+      "question_id": "q007",
+      "expected_answer": "Key challenges include handling sensor noise and uncertainty, achieving real-time performance, ensuring safety in physical interactions, adapting to dynamic environments, and bridging the sim-to-real gap.",
+      "required_keywords": ["uncertainty", "real-time", "safety", "dynamic"],
+      "min_citations": 2
+    },
+    {
+      "question_id": "q008",
+      "expected_answer": "The perception-action loop is the continuous cycle where a system perceives its environment through sensors, processes that information, and then acts on the environment through actuators, creating a feedback loop.",
+      "required_keywords": ["cycle", "perceives", "processes", "acts", "feedback"],
+      "min_citations": 1
+    },
+    {
+      "question_id": "q009",
+      "expected_answer": "Physical AI enables robots to learn from experience through techniques like reinforcement learning, where the robot tries different actions and learns from the outcomes, and through demonstrations and practice in real or simulated environments.",
+      "required_keywords": ["reinforcement learning", "experience", "practice"],
+      "min_citations": 1
+    },
+    {
+      "question_id": "q010",
+      "expected_answer": "Actuators are devices that convert electrical or other signals into physical motion or force, enabling the AI system to affect its environment through movement or manipulation.",
+      "required_keywords": ["motion", "force", "affect environment"],
+      "min_citations": 1
+    },
+    {
+      "question_id": "q011",
+      "expected_answer": "Perception provides the sensory input that informs control decisions, while control determines the actions to take. They are tightly coupled in a feedback loop where actions affect what is perceived, and perceptions guide future actions.",
+      "required_keywords": ["feedback", "coupled", "sensory input", "control decisions"],
+      "min_citations": 2
+    },
+    {
+      "question_id": "q012",
+      "expected_answer": "Real-time processing in Physical AI means that the system must process sensor data and compute control actions within strict time constraints to ensure timely and safe interactions with the physical world.",
+      "required_keywords": ["time constraints", "timely", "safe interactions"],
+      "min_citations": 1
+    },
+    {
+      "question_id": "q013",
+      "expected_answer": "Physical AI handles uncertainty through probabilistic reasoning, sensor fusion to combine multiple information sources, robust control strategies, and learning from experience to improve predictions.",
+      "required_keywords": ["probabilistic", "sensor fusion", "robust", "learning"],
+      "min_citations": 2
+    },
+    {
+      "question_id": "q014",
+      "expected_answer": "Applications of Physical AI include autonomous vehicles, industrial robotics, service robots, drones, medical robotics, agricultural automation, and assistive technologies.",
+      "required_keywords": ["autonomous", "robotics", "automation"],
+      "min_citations": 1
+    },
+    {
+      "question_id": "q015",
+      "expected_answer": "Sensor fusion is the process of combining data from multiple sensors to create a more accurate and complete understanding of the environment than any single sensor could provide.",
+      "required_keywords": ["combining", "multiple sensors", "accurate", "understanding"],
+      "min_citations": 1
+    },
+    {
+      "question_id": "q016",
+      "expected_answer": "Feedback allows Physical AI systems to observe the effects of their actions and adjust their behavior accordingly, enabling adaptive control and learning from mistakes.",
+      "required_keywords": ["observe effects", "adjust", "adaptive", "learning"],
+      "min_citations": 1
+    },
+    {
+      "question_id": "q017",
+      "expected_answer": "Physical AI systems achieve autonomy through combining perception, decision-making, and action capabilities, along with learning mechanisms that allow them to adapt to new situations without constant human intervention.",
+      "required_keywords": ["decision-making", "adapt", "without intervention"],
+      "min_citations": 2
+    },
+    {
+      "question_id": "q018",
+      "expected_answer": "Machine learning enables Physical AI systems to improve their performance through experience, learn patterns from sensor data, adapt to new environments, and make predictions about future states.",
+      "required_keywords": ["improve", "experience", "patterns", "adapt"],
+      "min_citations": 1
+    },
+    {
+      "question_id": "q019",
+      "expected_answer": "Safety considerations include preventing physical harm to humans, ensuring predictable behavior, implementing fail-safe mechanisms, validating system reliability, and addressing ethical concerns about autonomous physical systems.",
+      "required_keywords": ["harm prevention", "predictable", "fail-safe", "ethical"],
+      "min_citations": 2
+    },
+    {
+      "question_id": "q020",
+      "expected_answer": "Future directions include improving sim-to-real transfer, developing more sample-efficient learning methods, enhancing human-robot collaboration, addressing scalability challenges, and exploring new application domains.",
+      "required_keywords": ["sim-to-real", "learning", "collaboration", "scalability"],
+      "min_citations": 1
+    }
+  ]
+}

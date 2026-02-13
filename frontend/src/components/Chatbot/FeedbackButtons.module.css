@@ -1,0 +1,54 @@
+/**
+ * FeedbackButtons styles
+ */
+
+.feedbackButtons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.feedbackButton {
+  background: transparent;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  opacity: 0.6;
+}
+
+.feedbackButton:hover:not(:disabled) {
+  opacity: 1;
+  border-color: var(--ifm-color-primary);
+  background: var(--ifm-color-primary-lightest);
+}
+
+.feedbackButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.3;
+}
+
+.feedbackButton.active {
+  opacity: 1;
+  border-color: var(--ifm-color-primary);
+  background: var(--ifm-color-primary-lightest);
+}
+
+.thankYou {
+  font-size: 12px;
+  color: var(--ifm-color-success);
+  font-weight: 500;
+}
+
+/* Dark mode */
+html[data-theme='dark'] .feedbackButton {
+  border-color: var(--ifm-color-emphasis-400);
+}
+
+html[data-theme='dark'] .feedbackButton:hover:not(:disabled),
+html[data-theme='dark'] .feedbackButton.active {
+  background: var(--ifm-color-emphasis-200);
+}

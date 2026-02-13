@@ -1,16 +1,18 @@
 """
 FastAPI application entry point for RAG Chatbot backend.
 """
+# CRITICAL: Load environment variables FIRST, before any app imports
+from dotenv import load_dotenv
+load_dotenv()
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException as StarletteHTTPException
-from dotenv import load_dotenv
 import os
 
 # Import custom middleware and exception handlers
 from api.middleware.error_handler import (
-    ErrorHandlerMiddleware,
     validation_error_handler,
     rate_limit_error_handler,
     openai_error_handler,
@@ -20,9 +22,10 @@ from api.middleware.error_handler import (
     OpenAIError,
     QdrantError
 )
+from api.middleware.rate_limit import RateLimitMiddleware
 
-# Load environment variables
-load_dotenv()
+# Import routes (these will now have access to env vars)
+from api.routes import health, content_status, query, feedback, report_issue
 
 # Initialize FastAPI app
 app = FastAPI(
@@ -31,8 +34,18 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Add error handling middleware
-app.middleware("http")(ErrorHandlerMiddleware(app))
+# Note: Error handling is done via exception handlers below
+# instead of middleware to avoid ASGI compatibility issues
+
+# Register routers
+app.include_router(health.router, tags=["health"])
+app.include_router(content_status.router, tags=["content"])
+app.include_router(query.router, tags=["query"])
+app.include_router(feedback.router, tags=["feedback"])
+app.include_router(report_issue.router, tags=["issues"])
+
+# Add rate limiting middleware (20 requests per minute per IP)
+app.add_middleware(RateLimitMiddleware, requests_per_minute=20)
 
 # Get allowed origins from environment
 ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "").split(",")
