@@ -1,7 +1,7 @@
 """
 Query endpoint for RAG chatbot.
 """
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, BackgroundTasks
 from api.models.schemas import QueryRequest, QueryResponse
 from api.services.embedding import EmbeddingService
 from api.services.qdrant_search import QdrantSearchService
@@ -31,8 +31,63 @@ completion_service = RAGCompletionService()
 citation_service = CitationService()
 
 
+def log_to_database_async(
+    message_id: str,
+    session_id: str,
+    question: str,
+    answer: str,
+    citations: list,
+    response_time_ms: int
+):
+    """
+    Log query to database asynchronously (non-blocking).
+
+    Args:
+        message_id: Unique message identifier
+        session_id: User session identifier
+        question: User's question
+        answer: Generated answer
+        citations: List of citations
+        response_time_ms: Response time in milliseconds
+    """
+    try:
+        database_url = os.getenv("DATABASE_URL")
+        if database_url:
+            with psycopg.connect(database_url) as conn:
+                with conn.cursor() as cur:
+                    # Convert citations to JSON
+                    citations_json = json.dumps([
+                        {
+                            'section': c.section,
+                            'url': c.url,
+                            'score': c.score,
+                            'module_id': c.module_id,
+                            'chapter_id': c.chapter_id
+                        }
+                        for c in citations
+                    ])
+
+                    cur.execute("""
+                        INSERT INTO chat_messages
+                        (message_id, session_id, question, answer, citations_json, response_time_ms, created_at)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s)
+                    """, (
+                        message_id,
+                        session_id or 'anonymous',
+                        question,
+                        answer,
+                        citations_json,
+                        response_time_ms,
+                        datetime.utcnow()
+                    ))
+                    conn.commit()
+    except Exception as e:
+        # Log error but don't fail
+        print(f"Failed to log query to database: {str(e)}")
+
+
 @router.post("/api/query", response_model=QueryResponse)
-async def query(request: QueryRequest):
+async def query(request: QueryRequest, background_tasks: BackgroundTasks):
     """
     Process a RAG query and return an answer with citations.
 
@@ -68,21 +123,21 @@ async def query(request: QueryRequest):
         # Generate query embedding
         query_embedding = embedding_service.generate_embedding(request.question)
 
-        # Search Qdrant
+        # Search Qdrant (optimized for speed)
         if request.context:
             # Use context boosting for selected text queries (US2)
             search_results = search_service.search_with_context_boost(
                 query_vector=query_embedding,
                 context_text=request.context,
                 boost_factor=2.0,
-                top_k=5
+                top_k=3  # Reduced from 5 for faster responses
             )
         else:
-            # Standard search
+            # Standard search - optimized parameters
             search_results = search_service.search(
                 query_vector=query_embedding,
-                top_k=5,
-                threshold=0.7
+                top_k=3,  # Reduced from 5: faster search, less context to process
+                threshold=0.75  # Increased from 0.7: only high-quality matches
             )
 
         # Check for broad questions
@@ -139,41 +194,16 @@ async def query(request: QueryRequest):
             response_time_ms=response_time_ms
         )
 
-        # Log to database (T074)
-        try:
-            database_url = os.getenv("DATABASE_URL")
-            if database_url:
-                with psycopg.connect(database_url) as conn:
-                    with conn.cursor() as cur:
-                        # Convert citations to JSON
-                        citations_json = json.dumps([
-                            {
-                                'section': c.section,
-                                'url': c.url,
-                                'score': c.score,
-                                'module_id': c.module_id,
-                                'chapter_id': c.chapter_id
-                            }
-                            for c in citations
-                        ])
-
-                        cur.execute("""
-                            INSERT INTO chat_messages
-                            (message_id, session_id, question, answer, citations_json, response_time_ms, created_at)
-                            VALUES (%s, %s, %s, %s, %s, %s, %s)
-                        """, (
-                            message_id,
-                            request.session_id or 'anonymous',
-                            request.question,
-                            response.answer,
-                            citations_json,
-                            response_time_ms,
-                            datetime.utcnow()
-                        ))
-                        conn.commit()
-        except Exception as e:
-            # Log error but don't fail the request
-            print(f"Failed to log query to database: {str(e)}")
+        # Log to database asynchronously (non-blocking) - T074
+        background_tasks.add_task(
+            log_to_database_async,
+            message_id=message_id,
+            session_id=request.session_id,
+            question=request.question,
+            answer=response.answer,
+            citations=citations,
+            response_time_ms=response_time_ms
+        )
 
         return response
 

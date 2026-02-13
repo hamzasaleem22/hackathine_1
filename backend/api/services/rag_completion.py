@@ -13,14 +13,14 @@ class RAGCompletionService:
     def __init__(self):
         self.client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
         self.model = "gpt-4o-mini"
-        self.timeout = 30  # seconds
+        self.timeout = 15  # Reduced from 30s for faster responses
 
     def generate_completion(
         self,
         system_prompt: str,
         user_prompt: str,
-        temperature: float = 0.3,
-        max_tokens: int = 800
+        temperature: float = 0.1,  # Lower for faster, more deterministic responses
+        max_tokens: int = 400  # Reduced from 800 for faster generation
     ) -> Dict:
         """
         Generate completion using GPT-4o-mini.
@@ -68,15 +68,15 @@ class RAGCompletionService:
         self,
         system_prompt: str,
         user_prompt: str,
-        max_retries: int = 2
+        max_retries: int = 1  # Reduced from 2 to minimize delay
     ) -> Dict:
         """
-        Generate completion with retry logic.
+        Generate completion with retry logic (optimized for speed).
 
         Args:
             system_prompt: System instructions
             user_prompt: User question with context
-            max_retries: Maximum number of retry attempts (default: 2)
+            max_retries: Maximum number of retry attempts (default: 1)
 
         Returns:
             Dict with answer and metadata
@@ -92,9 +92,8 @@ class RAGCompletionService:
             except Exception as e:
                 last_error = e
                 if attempt < max_retries:
-                    # Wait before retry (exponential backoff)
-                    wait_time = (attempt + 1) * 2
-                    time.sleep(wait_time)
+                    # Minimal wait before retry (1 second only)
+                    time.sleep(1)
                     continue
 
         raise Exception(f"All retry attempts failed: {str(last_error)}")
