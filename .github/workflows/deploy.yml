@@ -54,8 +54,11 @@ jobs:
           REACT_APP_API_URL: https://backend-vert-zeta-89.vercel.app
           REACT_APP_CHATBOT_ENABLED: true
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./frontend/build
+          path: ./frontend/build
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
