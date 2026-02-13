@@ -1,0 +1,95 @@
+/**
+ * AskAboutButton styles
+ */
+
+.askAboutButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
+  transition: all 0.2s ease;
+  z-index: 10000;
+  white-space: nowrap;
+  animation: fadeIn 0.2s ease;
+}
+
+.askAboutButton:hover {
+  background: linear-gradient(135deg, #0052a3 0%, #004080 100%);
+  transform: translate(-50%, -100%) scale(1.05);
+  box-shadow: 0 6px 16px rgba(0, 102, 204, 0.4);
+}
+
+.askAboutButton:active {
+  transform: translate(-50%, -100%) scale(0.98);
+}
+
+.askAboutButton:focus {
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
+
+.icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.text {
+  font-size: 14px;
+}
+
+/* Mobile: Larger touch target */
+@media (max-width: 768px) {
+  .askAboutButton {
+    padding: 10px 20px;
+    font-size: 15px;
+    min-height: 44px; /* iOS minimum touch target */
+  }
+
+  .icon {
+    font-size: 18px;
+  }
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -100%) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -100%) scale(1);
+  }
+}
+
+/* Dark mode */
+html[data-theme='dark'] .askAboutButton {
+  background: linear-gradient(135deg, #0078e8 0%, #0066cc 100%);
+}
+
+html[data-theme='dark'] .askAboutButton:hover {
+  background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .askAboutButton {
+    border: 2px solid white;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .askAboutButton {
+    animation: none;
+    transition: none;
+  }
+}

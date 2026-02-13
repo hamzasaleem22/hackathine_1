@@ -1,0 +1,144 @@
+{
+  "questions": [
+    {
+      "id": "q001",
+      "question": "What is Physical AI?",
+      "module": "module-0",
+      "complexity": "basic",
+      "tags": ["definition", "introduction"]
+    },
+    {
+      "id": "q002",
+      "question": "How does Physical AI differ from traditional AI?",
+      "module": "module-0",
+      "complexity": "intermediate",
+      "tags": ["comparison", "concepts"]
+    },
+    {
+      "id": "q003",
+      "question": "What are the main components of a Physical AI system?",
+      "module": "module-0",
+      "complexity": "intermediate",
+      "tags": ["architecture", "components"]
+    },
+    {
+      "id": "q004",
+      "question": "Explain the role of sensors in Physical AI.",
+      "module": "module-0",
+      "complexity": "basic",
+      "tags": ["sensors", "hardware"]
+    },
+    {
+      "id": "q005",
+      "question": "What is embodied intelligence?",
+      "module": "module-0",
+      "complexity": "intermediate",
+      "tags": ["embodiment", "theory"]
+    },
+    {
+      "id": "q006",
+      "question": "How do Physical AI systems interact with their environment?",
+      "module": "module-0",
+      "complexity": "intermediate",
+      "tags": ["interaction", "environment"]
+    },
+    {
+      "id": "q007",
+      "question": "What are the key challenges in developing Physical AI?",
+      "module": "module-0",
+      "complexity": "advanced",
+      "tags": ["challenges", "development"]
+    },
+    {
+      "id": "q008",
+      "question": "What is the perception-action loop?",
+      "module": "module-0",
+      "complexity": "intermediate",
+      "tags": ["perception", "action", "loop"]
+    },
+    {
+      "id": "q009",
+      "question": "How does Physical AI enable robots to learn from experience?",
+      "module": "module-0",
+      "complexity": "advanced",
+      "tags": ["learning", "robotics"]
+    },
+    {
+      "id": "q010",
+      "question": "What are actuators in Physical AI systems?",
+      "module": "module-0",
+      "complexity": "basic",
+      "tags": ["actuators", "hardware"]
+    },
+    {
+      "id": "q011",
+      "question": "Describe the relationship between perception and control in Physical AI.",
+      "module": "module-0",
+      "complexity": "advanced",
+      "tags": ["perception", "control", "integration"]
+    },
+    {
+      "id": "q012",
+      "question": "What is real-time processing in Physical AI?",
+      "module": "module-0",
+      "complexity": "intermediate",
+      "tags": ["real-time", "processing"]
+    },
+    {
+      "id": "q013",
+      "question": "How does Physical AI handle uncertainty?",
+      "module": "module-0",
+      "complexity": "advanced",
+      "tags": ["uncertainty", "robustness"]
+    },
+    {
+      "id": "q014",
+      "question": "What are the applications of Physical AI?",
+      "module": "module-0",
+      "complexity": "basic",
+      "tags": ["applications", "use-cases"]
+    },
+    {
+      "id": "q015",
+      "question": "Explain sensor fusion in Physical AI.",
+      "module": "module-0",
+      "complexity": "advanced",
+      "tags": ["sensors", "fusion", "integration"]
+    },
+    {
+      "id": "q016",
+      "question": "What is the importance of feedback in Physical AI systems?",
+      "module": "module-0",
+      "complexity": "intermediate",
+      "tags": ["feedback", "control"]
+    },
+    {
+      "id": "q017",
+      "question": "How do Physical AI systems achieve autonomy?",
+      "module": "module-0",
+      "complexity": "advanced",
+      "tags": ["autonomy", "decision-making"]
+    },
+    {
+      "id": "q018",
+      "question": "What is the role of machine learning in Physical AI?",
+      "module": "module-0",
+      "complexity": "intermediate",
+      "tags": ["machine-learning", "AI"]
+    },
+    {
+      "id": "q019",
+      "question": "Describe the safety considerations in Physical AI.",
+      "module": "module-0",
+      "complexity": "advanced",
+      "tags": ["safety", "ethics"]
+    },
+    {
+      "id": "q020",
+      "question": "What are the future directions of Physical AI research?",
+      "module": "module-0",
+      "complexity": "advanced",
+      "tags": ["future", "research"]
+    }
+  ]
+}

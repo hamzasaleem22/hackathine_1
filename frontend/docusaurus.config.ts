@@ -179,6 +179,11 @@ const config: Config = {
       ],
       copyright: `Copyright © ${new Date().getFullYear()} Physical AI & Humanoid Robotics Textbook. Built with Docusaurus.`,
     },
+    // Chatbot configuration
+    chatbot: {
+      enabled: process.env.REACT_APP_CHATBOT_ENABLED === 'true',
+      apiUrl: process.env.REACT_APP_API_URL || 'http://localhost:8000',
+    },
     prism: {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
